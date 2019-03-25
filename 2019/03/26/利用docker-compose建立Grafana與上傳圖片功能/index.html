@@ -7,13 +7,14 @@
   
   <title>利用docker-compose建立Grafana與上傳圖片功能 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="docker-compose實務上一個服務，一定由眾多 service 共同運作。若只使用 docker run，則勢必寫 Bash 來管理 4 個 service，還必須考慮：  4 個 service 必須在同一個虛擬 network 下 4 個 service 的啟動順序  … 等問題。Docker 為此提出 Docker Compose 概念。在 docker-compose.yml 檔">
+  <meta name="description" content="docker-compose實務上一個服務，一定由眾多 service 共同運作。若只使用 docker run，則勢必寫 Bash 來管理 4 個 service，還必須考慮：  4 個 service 必須在同一個虛擬 network 下 4 個 service 的啟動順序  … 等問題。Docker 為此提出 Docker Compose 概念。在 docker-compose.yml">
 <meta property="og:type" content="article">
 <meta property="og:title" content="利用docker-compose建立Grafana與上傳圖片功能">
 <meta property="og:url" content="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="docker-compose實務上一個服務，一定由眾多 service 共同運作。若只使用 docker run，則勢必寫 Bash 來管理 4 個 service，還必須考慮：  4 個 service 必須在同一個虛擬 network 下 4 個 service 的啟動順序  … 等問題。Docker 為此提出 Docker Compose 概念。在 docker-compose.yml 檔">
+<meta property="og:description" content="docker-compose實務上一個服務，一定由眾多 service 共同運作。若只使用 docker run，則勢必寫 Bash 來管理 4 個 service，還必須考慮：  4 個 service 必須在同一個虛擬 network 下 4 個 service 的啟動順序  … 等問題。Docker 為此提出 Docker Compose 概念。在 docker-compose.yml">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/01.png">
 <meta property="og:image" content="https://pingsreenidotnet.files.wordpress.com/2018/04/screen-shot-2018-03-31-at-11-37-39-pm.png?w=358&h=205">
 <meta property="og:image" content="https://icinga.com/wp-content/uploads/2018/03/grafana-logo.png">
 <meta property="og:image" content="https://travis-ci.org/joemccann/dillinger.svg?branch=master">
@@ -42,11 +43,11 @@
 <meta property="og:image" content="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/20.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/23.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/25.png">
-<meta property="og:updated_time" content="2019-03-25T16:16:30.231Z">
+<meta property="og:updated_time" content="2019-03-25T16:21:05.564Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用docker-compose建立Grafana與上傳圖片功能">
-<meta name="twitter:description" content="docker-compose實務上一個服務，一定由眾多 service 共同運作。若只使用 docker run，則勢必寫 Bash 來管理 4 個 service，還必須考慮：  4 個 service 必須在同一個虛擬 network 下 4 個 service 的啟動順序  … 等問題。Docker 為此提出 Docker Compose 概念。在 docker-compose.yml 檔">
-<meta name="twitter:image" content="https://pingsreenidotnet.files.wordpress.com/2018/04/screen-shot-2018-03-31-at-11-37-39-pm.png?w=358&h=205">
+<meta name="twitter:description" content="docker-compose實務上一個服務，一定由眾多 service 共同運作。若只使用 docker run，則勢必寫 Bash 來管理 4 個 service，還必須考慮：  4 個 service 必須在同一個虛擬 network 下 4 個 service 的啟動順序  … 等問題。Docker 為此提出 Docker Compose 概念。在 docker-compose.yml">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/01.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -115,7 +116,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://docs.docker.com/compose/" target="_blank" rel="noopener"><img src="https://pingsreenidotnet.files.wordpress.com/2018/04/screen-shot-2018-03-31-at-11-37-39-pm.png?w=358&amp;h=205" alt="N|Solid"></a><br><a href="http://docs.grafana.org/guides/getting_started/" target="_blank" rel="noopener"><img src="https://icinga.com/wp-content/uploads/2018/03/grafana-logo.png" alt="Build Status"></a><br><img src="https://travis-ci.org/joemccann/dillinger.svg?branch=master" alt="Build Status"></p>
+        <img src="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/01.png">
+<p><a href="https://docs.docker.com/compose/" target="_blank" rel="noopener"><img src="https://pingsreenidotnet.files.wordpress.com/2018/04/screen-shot-2018-03-31-at-11-37-39-pm.png?w=358&amp;h=205" alt="N|Solid"></a><br><a href="http://docs.grafana.org/guides/getting_started/" target="_blank" rel="noopener"><img src="https://icinga.com/wp-content/uploads/2018/03/grafana-logo.png" alt="Build Status"></a><br><img src="https://travis-ci.org/joemccann/dillinger.svg?branch=master" alt="Build Status"></p>
 <h1 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker-compose"></a>docker-compose</h1><p>實務上一個服務，一定由眾多 service 共同運作。若只使用 docker run，則勢必寫 Bash 來管理 4 個 service，還必須考慮：</p>
 <ul>
 <li>4 個 service 必須在同一個虛擬 network 下</li>
@@ -198,7 +200,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjtok0ant0001pwk0jtrxtgh4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjtokhkx800027kk0yhspppr8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -206,6 +208,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2019/03/26/利用docker-compose來建置Grafana與上傳圖片/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          利用docker-compose來建置Grafana與上傳圖片
+        
+      </div>
+    </a>
   
   
     <a href="/2019/03/22/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
@@ -245,6 +256,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/03/26/利用docker-compose來建置Grafana與上傳圖片/">利用docker-compose來建置Grafana與上傳圖片</a>
+          </li>
         
           <li>
             <a href="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/">利用docker-compose建立Grafana與上傳圖片功能</a>
