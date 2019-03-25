@@ -5,23 +5,23 @@
   
 
   
-  <title>docker-compose build grafana | Hexo</title>
+  <title>Complete Construction Grafana  &amp; storage with docker-compose | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="docker-compose Construction Grafana Complete set docker-compose實務上一個服務，一定由眾多 service 共同運作。若只使用 docker run，則勢必寫 Bash 來管理 4 個 service，還必須考慮：  4 個 service 必須在同一個虛擬 network 下 4 個 service 的啟動順序  … 等問題。Dock">
+  <meta name="description" content="docker-compose實務上一個服務，一定由眾多 service 共同運作。若只使用 docker run，則勢必寫 Bash 來管理 4 個 service，還必須考慮：  4 個 service 必須在同一個虛擬 network 下 4 個 service 的啟動順序  … 等問題。Docker 為此提出 Docker Compose 概念。在 docker-compose.yml 檔">
 <meta name="keywords" content="grafana">
 <meta property="og:type" content="article">
-<meta property="og:title" content="docker-compose build grafana">
+<meta property="og:title" content="Complete Construction Grafana  &amp; storage with docker-compose">
 <meta property="og:url" content="http://yoursite.com/2019/03/25/docker-compose build grafana/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="docker-compose Construction Grafana Complete set docker-compose實務上一個服務，一定由眾多 service 共同運作。若只使用 docker run，則勢必寫 Bash 來管理 4 個 service，還必須考慮：  4 個 service 必須在同一個虛擬 network 下 4 個 service 的啟動順序  … 等問題。Dock">
+<meta property="og:description" content="docker-compose實務上一個服務，一定由眾多 service 共同運作。若只使用 docker run，則勢必寫 Bash 來管理 4 個 service，還必須考慮：  4 個 service 必須在同一個虛擬 network 下 4 個 service 的啟動順序  … 等問題。Docker 為此提出 Docker Compose 概念。在 docker-compose.yml 檔">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://pingsreenidotnet.files.wordpress.com/2018/04/screen-shot-2018-03-31-at-11-37-39-pm.png?w=358&h=205">
 <meta property="og:image" content="https://icinga.com/wp-content/uploads/2018/03/grafana-logo.png">
 <meta property="og:image" content="https://travis-ci.org/joemccann/dillinger.svg?branch=master">
-<meta property="og:updated_time" content="2019-03-25T14:29:56.655Z">
+<meta property="og:updated_time" content="2019-03-25T16:07:54.398Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="docker-compose build grafana">
-<meta name="twitter:description" content="docker-compose Construction Grafana Complete set docker-compose實務上一個服務，一定由眾多 service 共同運作。若只使用 docker run，則勢必寫 Bash 來管理 4 個 service，還必須考慮：  4 個 service 必須在同一個虛擬 network 下 4 個 service 的啟動順序  … 等問題。Dock">
+<meta name="twitter:title" content="Complete Construction Grafana  &amp; storage with docker-compose">
+<meta name="twitter:description" content="docker-compose實務上一個服務，一定由眾多 service 共同運作。若只使用 docker run，則勢必寫 Bash 來管理 4 個 service，還必須考慮：  4 個 service 必須在同一個虛擬 network 下 4 個 service 的啟動順序  … 等問題。Docker 為此提出 Docker Compose 概念。在 docker-compose.yml 檔">
 <meta name="twitter:image" content="https://pingsreenidotnet.files.wordpress.com/2018/04/screen-shot-2018-03-31-at-11-37-39-pm.png?w=358&h=205">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -83,7 +83,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      docker-compose build grafana
+      Complete Construction Grafana  &amp; storage with docker-compose
     </h1>
   
 
@@ -91,7 +91,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="docker-compose-Construction-Grafana-Complete-set"><a href="#docker-compose-Construction-Grafana-Complete-set" class="headerlink" title="docker-compose Construction Grafana Complete set"></a>docker-compose Construction Grafana Complete set</h1><p><a href="https://docs.docker.com/compose/" target="_blank" rel="noopener"><img src="https://pingsreenidotnet.files.wordpress.com/2018/04/screen-shot-2018-03-31-at-11-37-39-pm.png?w=358&amp;h=205" alt="N|Solid"></a><br><a href="http://docs.grafana.org/guides/getting_started/" target="_blank" rel="noopener"><img src="https://icinga.com/wp-content/uploads/2018/03/grafana-logo.png" alt="Build Status"></a><br><img src="https://travis-ci.org/joemccann/dillinger.svg?branch=master" alt="Build Status"></p>
+        <p><a href="https://docs.docker.com/compose/" target="_blank" rel="noopener"><img src="https://pingsreenidotnet.files.wordpress.com/2018/04/screen-shot-2018-03-31-at-11-37-39-pm.png?w=358&amp;h=205" alt="N|Solid"></a><br><a href="http://docs.grafana.org/guides/getting_started/" target="_blank" rel="noopener"><img src="https://icinga.com/wp-content/uploads/2018/03/grafana-logo.png" alt="Build Status"></a><br><img src="https://travis-ci.org/joemccann/dillinger.svg?branch=master" alt="Build Status"></p>
 <h1 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker-compose"></a>docker-compose</h1><p>實務上一個服務，一定由眾多 service 共同運作。若只使用 docker run，則勢必寫 Bash 來管理 4 個 service，還必須考慮：</p>
 <ul>
 <li>4 個 service 必須在同一個虛擬 network 下</li>
@@ -112,7 +112,7 @@
 </li>
 </ul>
 <blockquote>
-<p>可以參考下方的網站來進行更細部了解與額外的設定<br>本文章只進行簡單的使用docker-compose建立grafana &amp; influxdb的建置<br>telegraf因容器的特性暫不加入與研究放進docker-compose內<br>額外的google cloud platform平台與網域需要事先申請與購買才能完成本篇章教學<br>當然也有不需要上述方法也可以完成設定，只需要在docker-compose修改設定</p>
+<p>可以參考下方的網站來進行更細部了解與額外的設定<br>本文章只進行簡單的使用docker-compose建立grafana &amp; influxdb的建置<br>telegraf因容器的特性暫不加入與研究放進docker-compose內<br>額外的google cloud platform平台與網域需要事先申請與購買才能完成本篇章設定<br>當然也有不需要上述方法也可以完成設定，只需要在docker-compose修改設定</p>
 </blockquote>
 <h3 id="Tech研讀"><a href="#Tech研讀" class="headerlink" title="Tech研讀"></a>Tech研讀</h3><ul>
 <li><a href="https://docs.docker.com/get-started/" target="_blank" rel="noopener">docker</a> - Docker is a platform for developers and sysadmins to develop, deploy, and run applications with containers.</li>
@@ -121,84 +121,55 @@
 <li><a href="https://www.influxdata.com/time-series-platform/telegraf/" target="_blank" rel="noopener">telegraf</a> - Telegraf is part of the TICK Stack and is a plugin-driven server agent for collecting and reporting metrics. </li>
 <li><a href="https://docs.docker.com/compose/" target="_blank" rel="noopener">docker-compose</a> - Compose is a tool for defining and running multi-container Docker applications.</li>
 </ul>
-<h1 id="Google-Cloud-Platform設定DNS與Oauth2與Storage"><a href="#Google-Cloud-Platform設定DNS與Oauth2與Storage" class="headerlink" title="Google Cloud Platform設定DNS與Oauth2與Storage"></a>Google Cloud Platform設定DNS與Oauth2與Storage</h1><p>step.1 先到GCP(google cloud platform的簡單)的控制台，點選左上邊的Menu菜單後選擇網路服務→Cloud DNS<br>在此建立區域<br><br>進入區域後新增紀錄集用來當作grafana網站的網域A紀錄<br></p>
-<p>step2. 再到GCP的Menu菜單點選API和服務→憑證，然後切到換OAuth同意畫面新增你的Grafna網域在上方<br>應用程式類型：公開<br>應用程式名稱：任意輸入(主要是在google驗證的時候所跳出來的顯示名稱，告知登入者此跳轉至應用登入)<br>支援電子郵件：輸入自己的E-mail信箱(顯示在同意畫面中，方便使用者尋求支援)<br>已授權網域：輸入個人的網域(e.q：假設grafana.monitor.com是你的網域那就只需要輸入monitor.com即可)<br>完成後儲存<br><br></p>
-<p>step.3 再切回到憑證的畫面後，再點選建立憑證→OAuth用戶端ID→網路應用程式<br>名稱：給予一個名稱用來辨識此OAuth用戶端ID<br>已授權的重新導向 URI：依照上述例子輸入<a href="http://grafana.monitor.com/login/google後儲存" target="_blank" rel="noopener">http://grafana.monitor.com/login/google後儲存</a><br><br></p>
+<h1 id="Google-Cloud-Platform設定DNS與Oauth2與Storage"><a href="#Google-Cloud-Platform設定DNS與Oauth2與Storage" class="headerlink" title="Google Cloud Platform設定DNS與Oauth2與Storage"></a>Google Cloud Platform設定DNS與Oauth2與Storage</h1><p>step.1 先到GCP(google cloud platform的簡單)的控制台，點選左上邊的Menu菜單後選擇網路服務→Cloud DNS<br>在此建立區域<br><br>進入區域後新增紀錄集用來當作grafana網站的網域A紀錄(e.q:grafana.monitor.com)<br></p>
+<p>step2. 再到GCP的Menu菜單點選API和服務→憑證，然後點選OAuth同意畫面新增你的Grafna網域<br>應用程式類型：公開<br>應用程式名稱：任意輸入(主要是在google驗證的時候所跳出來的顯示名稱，告知登入者此跳轉至應用登入)<br>支援電子郵件：輸入自己的E-mail信箱(顯示在同意畫面中，方便使用者尋求支援)<br>已授權網域：輸入個人的網域(e.q：假設grafana.monitor.com是你的網域那就只需要輸入monitor.com即可)<br>完成後儲存<br><br></p>
+<p>step.3 再切回到憑證的畫面後，再點選建立憑證→OAuth用戶端ID→網路應用程式<br>名稱：給予一個名稱用來辨識此OAuth用戶端ID<br>已授權的重新導向 URI：依照上述例子輸入<a href="http://grafana.monitor.com/login/google" target="_blank" rel="noopener">http://grafana.monitor.com/login/google</a><br><br></p>
 <p>step.4 之後到GCP的IAM管理員的頁面點選+建立服務帳戶<br></p>
-<p>填寫服務帳號名稱：這邊可以設定為單一服務或功能型的名稱：grafana or storages for grafana等等…<br>服務帳戶說明：看個人願不願意輸入此服務帳戶的詳細資訊，避免日後太久回來忘記還是建議輸入一下<br><br>設定服務帳戶權限(可選項)：請選擇儲存空間的storages的物件建立者or物件管理員<br>點選繼續之後<br><br>再完成後記得點選下載json格式的金鑰，此金鑰為你所創立的服務帳號所授予的storage權限的証明<br>有了此金鑰檔案就可以有權限任意的往你的storage新增刪除修改物件了<br>所以這邊要很小心的管理唷!!!<br><br>step.5 建立可以站存圖片的storage bucket<br>點選GCP Menu的Storage 瀏覽器後，按下建立值區(就是bucket的意思)<br><br>名稱：因為GCP的bucket的特殊性，全世界的bucket不可以有相同的名稱，因此請自己取一個符合服務或功能性的名稱<br>如果出現重複名稱GCP會有紅色通知你需要更換名稱<br>預設儲存空間級別：依照個人需求，假設你上傳與下載圖片頻率越高，則使用Multi-Regional；反之則選擇約低層級就好<br>詳細的費用計算方法請參考<a href="https://cloud.google.com/storage/pricing/" target="_blank" rel="noopener">這裡</a></p>
+<p>填寫服務帳號名稱：這邊可以設定為單一服務或功能型的名稱：grafana or storages for grafana等等…<br>服務帳戶說明：看個人願不願意輸入此服務帳戶的詳細資訊，避免日後太久回來忘記還是建議輸入一下<br><br>設定服務帳戶權限(可選項)：請選擇儲存空間的storages的物件建立者or物件管理員(至少確保有寫入權限)<br>點選繼續之後<br><br>再完成後記得點選下載json格式的金鑰，此金鑰為你所創立的服務帳號所授予寫入storage權限的証明<br>有了此金鑰檔案就可以有權限任意的往你的storage新增刪除物件了<br>所以金鑰要很小心的管理唷!!!<br><br>step.5 建立可以暫存圖片的storage bucket<br>點選GCP Menu的Storage 瀏覽器後，按下建立值區(就是bucket的意思)<br><br>名稱：因為GCP的bucket的特殊性，全世界的bucket不可以有相同的名稱，因此請自己取一個符合服務或功能性的名稱<br>如果出現重複名稱GCP會有紅色通知你需要更換名稱<br>預設儲存空間級別：依照個人需求，假設你上傳與下載圖片頻率越高，則使用Multi-Regional；反之則選擇約低層級就好<br>詳細的費用計算方法請參考<a href="https://cloud.google.com/storage/pricing/" target="_blank" rel="noopener">這裡</a></p>
 
-<h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update      #用來取得遠端更新伺服器的套件檔案清單。</span><br><span class="line">$ sudo apt-get upgrade      #自動找出所有有新版的軟體套件並逐一升級。</span><br><span class="line">$ sudo apt-get install docker.io      #下載docker</span><br><span class="line">$ sudo curl -L &quot;https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)&quot; -o /usr/local/bin/docker-compose      #下載docker-compose(用來定義容器之間的關係與容器啟動的順序)</span><br><span class="line">$ sudo chmod +x /usr/local/bin/docker-compose      #將剛剛下載的docker-compose的加上執行的權限</span><br><span class="line">$ sudo mkdir -p /data/influxdb /data/grafana      #新增資料夾，用來存在grafana與inlfuxdb的資料(避免容器重啟後即消失)</span><br><span class="line">$ sudo chmod 777 /data/grafana /data/influxdb      #將資料夾權限開到最大(不安全的做法，如可以的話請使用安全的權限寫入，如這邊無法寫入的話，容器將會因為啟動的時候要將資料寫入對應資料夾而失敗造成無限重啟)</span><br><span class="line">$sudo vim docker-compose.yml      $編寫docker-compose的檔案</span><br></pre></td></tr></table></figure>
-<font color="blue">請注意將你剛剛下載下載的json金鑰檔案放置在/data/grafana底下</font>
+<h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br></pre></td></tr></table></figure>
+<p>用來取得遠端更新伺服器的套件檔案清單。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
+<p>自動找出所有有新版的軟體套件並逐一升級。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install docker.io</span><br></pre></td></tr></table></figure>
+<p>下載docker</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo curl -L <span class="string">"https://github.com/docker/compose/releases/download/1.23.2/docker-compose-<span class="variable">$(uname -s)</span>-<span class="variable">$(uname -m)</span>"</span> -o /usr/<span class="built_in">local</span>/bin/docker-compose</span><br></pre></td></tr></table></figure>
+<p>下載docker-compose(用來定義容器之間的關係與容器啟動的順序)<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chmod +x /usr/<span class="built_in">local</span>/bin/docker-compose</span><br></pre></td></tr></table></figure></p>
+<p>將剛剛下載的docker-compose的加上執行的權限<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mkdir -p /data/influxdb /data/grafana</span><br></pre></td></tr></table></figure></p>
+<p>新增資料夾，用來存在grafana與inlfuxdb的資料(避免容器重啟後即消失)<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chmod 777 /data/grafana /data/influxdb</span><br></pre></td></tr></table></figure></p>
+<p>將資料夾權限開到最大(不安全的做法，如可以的話請使用安全的權限寫入，如這邊無法寫入的話，容器將會因為啟動的時候要將資料寫入對應資料夾而失敗造成無限重啟)<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim docker-compose.yml</span><br></pre></td></tr></table></figure></p>
+<font color="blue">請注意將你剛剛下載下載的json金鑰檔案放置在/data/grafana底下，因為容器內的路徑對應到外部的data/grafana資料夾下，因此丟到此路徑就可以讓容器讀取金鑰</font>
 
+<p>編寫docker-compose的檔案</p>
 <p>這樣一來就能讓grafana的服務存取金鑰內容後可以去跟storage做存取圖片的動作權限了</p>
 <p>docker-compose內容如下…</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">"3"</span></span><br><span class="line">services:</span><br><span class="line"></span><br><span class="line">  influxdb:</span><br><span class="line">    image: influxdb</span><br><span class="line">    container_name: influxdb</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">"8086:8086"</span></span><br><span class="line">    restart: always</span><br><span class="line">    volumes:</span><br><span class="line">      - /data/influxdb:/var/lib/influxdb</span><br><span class="line">    networks:</span><br><span class="line">      - monitor</span><br><span class="line">  grafana:</span><br><span class="line">    image: grafana/grafana</span><br><span class="line">    container_name: grafana</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">"80:3000"</span></span><br><span class="line">    restart: always</span><br><span class="line">    networks:</span><br><span class="line">      - monitor</span><br><span class="line">    volumes:</span><br><span class="line">      - /data/grafana:/var/lib/grafana</span><br><span class="line">    environment:</span><br><span class="line">      - GF_SERVER_ROOT_URL=http://grafana.costworlds.com</span><br><span class="line">      - GF_AUTH_DISABLE_LOGIN_FORM=<span class="literal">false</span></span><br><span class="line">      - GF_AUTH_GOOGLE_ENABLED=<span class="literal">true</span></span><br><span class="line">      - GF_AUTH_GOOGLE_CLIENT_ID=957269883000-82e4758ih5a74u9jj7rldc427lg67sfl.apps.googleusercontent.com</span><br><span class="line">      - GF_AUTH_GOOGLE_CLIENT_SECRET=A1dclGMsDOXepyv6oXhAfpMu</span><br><span class="line">      - GF_AUTH_GOOGLE_ALLOWED_DOMAINS=gosmio.biz</span><br><span class="line">      - GF_AUTH_GOOGLE_ALLOW_SIGN_UP=<span class="literal">true</span></span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_PROVIDER=s3</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_BUCKET_URL=https://s3-ap-southeast-1.amazonaws.com/gt-to3</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_ACCESS_KEY=AKIAIVBWSCYVD45MHWHQ</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_SECRET_KEY=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</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">networks:</span><br><span class="line">  monitor:</span><br></pre></td></tr></table></figure>
-<p>記得docker-compose是有縮排的，因此之間的段落空白要注意否有對齊喔</p>
-<p>在來要準備安裝資料收集器：Telegraf<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://dl.influxdata.com/telegraf/releases/telegraf_1.9.5-1_amd64.deb</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo dpkg -i telegraf_1.9.5-1_amd64.deb</span><br></pre></td></tr></table></figure>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/telegraf/telegraf.conf</span><br></pre></td></tr></table></figure>
-<p>將config內的設定檔照以下的資訊設定完成</p>
+<p>記得docker-compose是有縮排的，因此服務與環境變數之間的空白要注意否有對齊</p>
+<p>再來準備安裝資料收集器：Telegraf<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://dl.influxdata.com/telegraf/releases/telegraf_1.9.5-1_amd64.deb</span><br></pre></td></tr></table></figure></p>
+<p>下載Telegraf的安裝包<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo dpkg -i telegraf_1.9.5-1_amd64.deb</span><br></pre></td></tr></table></figure></p>
+<p>解壓縮並安裝<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/telegraf/telegraf.conf</span><br></pre></td></tr></table></figure></p>
+<p>修改設定檔<br>將config內的設定檔照以下的資訊設定完成</p>
 <blockquote>
 <p>logfile = “/var/log/telegraf/telegraf.log”</p>
 <p>urls = [“<a href="http://127.0.0.1:8086&quot;]" target="_blank" rel="noopener">http://127.0.0.1:8086&quot;]</a></p>
 <p>database = “telegraf”</p>
 </blockquote>
-<p>儲存好了之後重啟服務 &amp; 確認服務<font color="Green">Running</font></p>
+<p>logfile：主要是將telegraf的log檔案指定在特定路徑下<br>urls：指定要telegraf將收集的資料丟往哪一個資料庫存放<br>database：指定在丟資料時要存放進哪一個資料庫<br>儲存好了之後重啟服務 &amp; 確認服務<font color="Green">Running</font></p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ service telegraf restart</span><br></pre></td></tr></table></figure>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ service telegraf status</span><br></pre></td></tr></table></figure>
+
 <h1 id="Dashboard-amp-Metric-amp-Alert-配置"><a href="#Dashboard-amp-Metric-amp-Alert-配置" class="headerlink" title="Dashboard &amp; Metric &amp; Alert 配置"></a>Dashboard &amp; Metric &amp; Alert 配置</h1><p>首先先開啟瀏覽器輸入剛剛你設定grafana的前台網址，然後會看到類似的登入畫面<br></p>
-<p>這邊要注意的是因為我在docker-compose把環境變數的- GF_AUTH_DISABLE_LOGIN_FORM設定false</p>
-<p>所以會出現同時有google驗證登入與帳號密碼的輸入畫面出現<br>，如果不希望的話可以重啟修改為true後重啟docker-compose</p>
+<p>這邊要注意的是因為在docker-compose把環境變數的- GF_AUTH_DISABLE_LOGIN_FORM設定false</p>
+<p>所以還是會出現同帳號密碼的輸入畫面出現，如果不希望的話可以先用google登出入後再使用admin帳號進去將google的帳號權限拉升至admin管理者，再將變數修改為true後重啟docker-compose</p>
 <p>預設帳號是admin / amdin</p>
-<p>第一步驟是新增data source，也就是把Influxdb的資料庫新增進去Grafana<br><br></p>
-<p>第二步驟填寫Influxdb的連線資訊後儲存<br>URL：<a href="http://influxdb:8086" target="_blank" rel="noopener">http://influxdb:8086</a><br>Database：Telegraf<br></p>
+<p>第一步驟是新增data source，也就是把Grafana新增資料的讀取來源Influxdb<br><br></p>
+<p>第二步驟填寫Influxdb的連線資訊後儲存<br>URL：<a href="http://influxdb:8086(這邊要注意的是一定要寫influxdb唷，容器只互相認得容器名稱)" target="_blank" rel="noopener">http://influxdb:8086(這邊要注意的是一定要寫influxdb唷，容器只互相認得容器名稱)</a><br>Database：Telegraf<br></p>
 
 
 
-<p>之後我們來設定Alerting Channel讓Grafana發出告警到Slack並夾帶截圖<br><br>Slack Setting的部份需要個人去申請Slack的帳號後新開自己的Workplace(工作群組)後前往slacke的app Directory應用程序去申請Incoming WebHooks的RUL在這邊填上<br>網址：<a href="https://slack.com/apps" target="_blank" rel="noopener">https://slack.com/apps</a><br><br>再來開始設定Metric的Alert的告警水位與發送告警到Slack的頻道<br><br></p>
+<p>之後我們來設定Alerting Channel讓Grafana發出告警到Slack並夾帶告警截圖<br><br>Slack Setting的部份需要個人去申請Slack的帳號後新開自己的Workplace(工作群組)後前往slack的app Directory應用程序去申請Incoming WebHooks的URL在這邊填上<br>網址：<a href="https://slack.com/apps" target="_blank" rel="noopener">https://slack.com/apps</a><br><br>再來開始設定Metric的Alert的告警水位與發送告警到Slack的頻道<br><br></p>
 <h3 id="TEST"><a href="#TEST" class="headerlink" title="TEST"></a>TEST</h3><p>測試上述設定與安裝與配置都是成功的，成功會有告警的截圖傳送到Slack的頻道內<br>將水位調整成會出發告警之後查看剛剛新創立的slack頻道是否有出現Grafana告警的截圖與incoming webhook的告警通知</p>
-<h4 id="Kubernetes-Google-Cloud"><a href="#Kubernetes-Google-Cloud" class="headerlink" title="Kubernetes + Google Cloud"></a>Kubernetes + Google Cloud</h4><p>See <a href="https://github.com/joemccann/dillinger/blob/master/KUBERNETES.md" target="_blank" rel="noopener">KUBERNETES.md</a></p>
-<h3 id="Todos"><a href="#Todos" class="headerlink" title="Todos"></a>Todos</h3><ul>
-<li>Write MORE Tests</li>
-<li>Add Night Mode</li>
-</ul>
-<h2 id="License"><a href="#License" class="headerlink" title="License"></a>License</h2><p>MIT</p>
-<p><strong>Free Software, Hell Yeah!</strong></p>
-<p>作者：Magic_Duck<br>链接：<a href="https://juejin.im/post/5b4568c851882519790c72f3" target="_blank" rel="noopener">https://juejin.im/post/5b4568c851882519790c72f3</a><br>来源：掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
-<table>
-<thead>
-<tr>
-<th>Plugin</th>
-<th>README</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Dropbox</td>
-<td><a href="https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md" target="_blank" rel="noopener">plugins/dropbox/README.md</a></td>
-</tr>
-<tr>
-<td>Github</td>
-<td><a href="https://github.com/joemccann/dillinger/tree/master/plugins/github/README.md" target="_blank" rel="noopener">plugins/github/README.md</a></td>
-</tr>
-<tr>
-<td>Google Drive</td>
-<td><a href="https://github.com/joemccann/dillinger/tree/master/plugins/googledrive/README.md" target="_blank" rel="noopener">plugins/googledrive/README.md</a></td>
-</tr>
-<tr>
-<td>OneDrive</td>
-<td><a href="https://github.com/joemccann/dillinger/tree/master/plugins/onedrive/README.md" target="_blank" rel="noopener">plugins/onedrive/README.md</a></td>
-</tr>
-<tr>
-<td>Medium</td>
-<td><a href="https://github.com/joemccann/dillinger/tree/master/plugins/medium/README.md" target="_blank" rel="noopener">plugins/medium/README.md</a></td>
-</tr>
-<tr>
-<td>Google Analytics</td>
-<td><a href="https://github.com/RahulHP/dillinger/blob/master/plugins/googleanalytics/README.md" target="_blank" rel="noopener">plugins/googleanalytics/README.md</a></td>
-</tr>
-</tbody>
-</table>
+
 
       
     </div>
@@ -268,7 +239,7 @@
       <ul>
         
           <li>
-            <a href="/2019/03/25/docker-compose build grafana/">docker-compose build grafana</a>
+            <a href="/2019/03/25/docker-compose build grafana/">Complete Construction Grafana  &amp; storage with docker-compose</a>
           </li>
         
           <li>
