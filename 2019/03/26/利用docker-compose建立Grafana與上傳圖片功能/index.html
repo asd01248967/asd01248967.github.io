@@ -42,7 +42,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/20.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/23.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/25.png">
-<meta property="og:updated_time" content="2019-03-25T16:32:31.705Z">
+<meta property="og:updated_time" content="2019-03-25T16:40:27.512Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用docker-compose建立Grafana與上傳圖片功能">
 <meta name="twitter:description" content="docker-compose實務上一個服務，一定由眾多 service 共同運作。若只使用 docker run，則勢必寫 Bash 來管理 4 個 service，還必須考慮：  4 個 service 必須在同一個虛擬 network 下 4 個 service 的啟動順序  … 等問題。Docker 為此提出 Docker Compose 概念。在 docker-compose.yml 檔">
@@ -190,7 +190,7 @@
 <p>第二步驟填寫Influxdb的連線資訊後儲存<br>URL：<a href="http://influxdb:8086(這邊要注意的是一定要寫influxdb唷，容器只互相認得容器名稱)" target="_blank" rel="noopener">http://influxdb:8086(這邊要注意的是一定要寫influxdb唷，容器只互相認得容器名稱)</a><br>Database：Telegraf<br><img src="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/16.png"></p>
 <img src="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/17.png">
 <img src="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/18.png">
-<img src="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/19.png">
+<p>設定要抓取定特的值來視覺化，telegraf預設上已經有最基本的系統監控(CPU、記憶體、硬碟等)<br>因此這邊再queries to選擇data sourece，下方則是選擇此data source內的監控資料<br>下突圍選擇cpu的監控值來顯示<br><img src="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/19.png"></p>
 <p>之後我們來設定Alerting Channel讓Grafana發出告警到Slack並夾帶告警截圖<br><img src="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/22.png"><br>Slack Setting的部份需要個人去申請Slack的帳號後新開自己的Workplace(工作群組)後前往slack的app Directory應用程序去申請Incoming WebHooks的URL在這邊填上<br>網址：<a href="https://slack.com/apps" target="_blank" rel="noopener">https://slack.com/apps</a><br><img src="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/21.png"><br>再來開始設定Metric的Alert的告警水位與發送告警到Slack的頻道<br><img src="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/20.png"><br><img src="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/23.png"></p>
 <h3 id="TEST"><a href="#TEST" class="headerlink" title="TEST"></a>TEST</h3><p>測試上述設定與安裝與配置都是成功的，成功會有告警的截圖傳送到Slack的頻道內<br>將水位調整成會出發告警之後查看剛剛新創立的slack頻道是否有出現Grafana告警的截圖與incoming webhook的告警通知</p>
 <img src="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/25.png">
@@ -198,7 +198,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjtokm7tu0001nck03vuwhgaa" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjtokvp1s0001ksk0a35otvlt" class="article-share-link">Share</a>
       
       
     </footer>
