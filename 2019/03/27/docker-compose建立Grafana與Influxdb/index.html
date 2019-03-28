@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/02.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/03.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/03.png">
-<meta property="og:updated_time" content="2019-03-28T04:02:17.971Z">
+<meta property="og:updated_time" content="2019-03-28T04:06:32.133Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker-compose建立Grafana與Influxdb">
 <meta name="twitter:description" content="系統：Ubuntu 16.04 LTS Installation1$ sudo apt-get update 用來取得遠端更新伺服器的套件檔案清單。 1$ sudo apt-get upgrade 自動找出所有有新版的軟體套件並逐一升級。 1$ sudo apt-get install docker.io 下載docker 1$ sudo curl -L &quot;https://github.com/d">
@@ -174,11 +174,13 @@
 </blockquote>
 <p>google驗證客端的ID。可以至GCP上的API和憑證中的憑證後點選建立憑證→OAuth用戶端ID建立後或給予一組用戶端ID可以填寫在此。注意這邊需要先到OAuth同意畫面新增已授權網域並選擇公開</p>
 <blockquote>
-<p>GF_AUTH_GOOGLE_CLIENT_SECRET<br>google驗證客端的密碼，同上在建立OAuth2.0用戶端ID的時候會同時給予密碼。</p>
+<p>GF_AUTH_GOOGLE_CLIENT_SECRET</p>
 </blockquote>
+<p>google驗證客端的密碼，同上在建立OAuth2.0用戶端ID的時候會同時給予密碼。</p>
 <blockquote>
-<p>GF_AUTH_GOOGLE_ALLOWED_DOMAINS<br>允許認證的登入的網域，也就是說你需要設定什麼帳號的網域登入google成功後才可以轉導登入進grafana</p>
+<p>GF_AUTH_GOOGLE_ALLOWED_DOMAINS</p>
 </blockquote>
+<p>允許認證的登入的網域，也就是說你需要設定什麼帳號的網域登入google成功後才可以轉導登入進grafana</p>
 <blockquote>
 <p>GF_AUTH_GOOGLE_ALLOW_SIGN_UP</p>
 </blockquote>
@@ -186,12 +188,11 @@
 <hr>
 <p>docker-compose.yml檔案寫完之後存檔離開，準備要試著透過docker-compose啟動</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker-compose up -d</span><br></pre></td></tr></table></figure>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker ps -a</span><br></pre></td></tr></table></figure>
-<p>檢查一下docker的容器狀況是否正常的啟動。<br>正常會出現像以下的容器STATUS的情況才對，告知你正常啟動的時間經過多久了</p>
+<p>檢查一下docker的容器狀況是否正常的啟動。<br>正常會出現像以下的容器STATUS的情況才對，告知你正常啟動的時間經過多久了<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker ps -a</span><br></pre></td></tr></table></figure></p>
 <img src="/2019/03/27/docker-compose建立Grafana與Influxdb/01.png">
 <hr>
-<p>異常判斷1：docker-compose無法啟動成功<br>如果這時候發生無法啟動docker-compose的時候，一個可能是權限不足造成無法啟動<br>如果不是的話可能是檔案內容縮排或者設定有問題，可以先試著一個一個容器與設定拿掉後再試著啟動</p>
-<p>異常判斷2：docker-compose無法執行<br>當下終端機的位置需要與docker-compose.yml所在的目錄位置是相同的，不然無法使用docker-compose的指令，因為當下的目錄無此docker-composeyml檔案所以無法執行</p>
+<p><font color="yellow">異常判斷1</font>：docker-compose無法啟動成功<br>如果這時候發生無法啟動docker-compose的時候，一個可能是權限不足造成無法啟動<br>如果不是的話可能是檔案內容縮排或者設定有問題，可以先試著一個一個容器與設定拿掉後再試著啟動</p>
+<p><font color="yellow">異常判斷2</font>：docker-compose無法執行<br>當下終端機的位置需要與docker-compose.yml所在的目錄位置是相同的，不然無法使用docker-compose的指令，因為當下的目錄無此docker-composeyml檔案所以無法執行</p>
 <hr>
 <h1 id="Acceptance"><a href="#Acceptance" class="headerlink" title="Acceptance"></a>Acceptance</h1><p>先開啟剛剛再docker-compose.yml所輸入的root url或者該機器的IP(防火牆記得開通設定80 Port)<br>就會出現該網站的登入畫面了</p>
 <p>備註：如果有設定google網域登入驗證的話還是只能使用網域方式，否則轉導回網域的時候會失敗!!<br><img src="/2019/03/27/docker-compose建立Grafana與Influxdb/02.png"></p>
@@ -204,7 +205,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjts43pif0000wok0cx83zv2s" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjts64fg30000fck0jwkhl2yq" class="article-share-link">Share</a>
       
       
     </footer>
