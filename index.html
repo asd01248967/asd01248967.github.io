@@ -97,8 +97,8 @@
 <p>新增資料夾，用來存在grafana與influxdb的資料(避免容器重啟後即消失)<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chmod 777 /data/grafana /data/influxdb</span><br></pre></td></tr></table></figure></p>
 <p>將資料夾權限開到所有帳號與服務皆可以寫入(不安全的做法，如可以的話請使用安全的權限寫入，如這邊無法寫入的話，容器將會因為啟動的時候要將資料寫入對應資料夾而失敗造成無線重試&amp;無限重啟)<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim docker-compose.yml</span><br></pre></td></tr></table></figure></p>
 <p>編寫docker-compose的檔案</p>
-<p>docker-compose內容如下:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">"3"</span></span><br><span class="line">services:</span><br><span class="line"></span><br><span class="line">  influxdb:</span><br><span class="line">    image: influxdb</span><br><span class="line">    container_name: influxdb</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">"8086:8086"</span></span><br><span class="line">    restart: always</span><br><span class="line">    volumes:</span><br><span class="line">      - /data/influxdb:/var/lib/influxdb</span><br><span class="line">    networks:</span><br><span class="line">      - monitor</span><br><span class="line">  grafana:</span><br><span class="line">    image: grafana/grafana</span><br><span class="line">    container_name: grafana</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">"80:3000"</span></span><br><span class="line">    restart: always</span><br><span class="line">    networks:</span><br><span class="line">      - monitor</span><br><span class="line">    volumes:</span><br><span class="line">      - /data/grafana:/var/lib/grafana</span><br><span class="line">    environment:</span><br><span class="line">      - GF_SERVER_ROOT_URL=http://grafana.costworlds.com</span><br><span class="line">      - GF_AUTH_DISABLE_LOGIN_FORM=<span class="literal">false</span></span><br><span class="line">      - GF_AUTH_GOOGLE_ENABLED=<span class="literal">true</span></span><br><span class="line">      - GF_AUTH_GOOGLE_CLIENT_ID=957269883000-82e4758ih5a74u9jj7rldc427lg67sfl.apps.googleusercontent.com</span><br><span class="line">      - GF_AUTH_GOOGLE_CLIENT_SECRET=A1dclGMsDOXepyv6oXhAfpMu</span><br><span class="line">      - GF_AUTH_GOOGLE_ALLOWED_DOMAINS=gosmio.biz</span><br><span class="line">      - GF_AUTH_GOOGLE_ALLOW_SIGN_UP=<span class="literal">true</span></span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_PROVIDER=s3</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_BUCKET_URL=https://s3-ap-southeast-1.amazonaws.com/gt-to3</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_ACCESS_KEY=AKIAIVBWSCYVD45MHWHQ</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_SECRET_KEY=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</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">networks:</span><br><span class="line">  monitor:</span><br></pre></td></tr></table></figure>
+<p>docker-compose內容如下(下列隱私資料我有改過，所以需要依照自己的去修正):</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">"3"</span></span><br><span class="line">services:</span><br><span class="line"></span><br><span class="line">  influxdb:</span><br><span class="line">    image: influxdb</span><br><span class="line">    container_name: influxdb</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">"8086:8086"</span></span><br><span class="line">    restart: always</span><br><span class="line">    volumes:</span><br><span class="line">      - /data/influxdb:/var/lib/influxdb</span><br><span class="line">    networks:</span><br><span class="line">      - monitor</span><br><span class="line">  grafana:</span><br><span class="line">    image: grafana/grafana</span><br><span class="line">    container_name: grafana</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">"80:3000"</span></span><br><span class="line">    restart: always</span><br><span class="line">    networks:</span><br><span class="line">      - monitor</span><br><span class="line">    volumes:</span><br><span class="line">      - /data/grafana:/var/lib/grafana</span><br><span class="line">    environment:</span><br><span class="line">      - GF_SERVER_ROOT_URL=http://grafana.monitor.com</span><br><span class="line">      - GF_AUTH_DISABLE_LOGIN_FORM=<span class="literal">false</span></span><br><span class="line">      - GF_AUTH_GOOGLE_ENABLED=<span class="literal">true</span></span><br><span class="line">      - GF_AUTH_GOOGLE_CLIENT_ID=012345678912-testestest.apps.googleusercontent.com</span><br><span class="line">      - GF_AUTH_GOOGLE_CLIENT_SECRET=rhtsjyrkjytjkydtjyjdyj</span><br><span class="line">      - GF_AUTH_GOOGLE_ALLOWED_DOMAINS=grafana.com</span><br><span class="line">      - GF_AUTH_GOOGLE_ALLOW_SIGN_UP=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">networks:</span><br><span class="line">  monitor:</span><br></pre></td></tr></table></figure>
 <table>
 <thead>
 <tr>
@@ -114,7 +114,8 @@
 </tr>
 <tr>
 <td>services</td>
-<td style="text-align:left">將</td>
+<td style="text-align:left">定義容器服務：influxdb與grafana</td>
+<td></td>
 </tr>
 <tr>
 <td>container_name</td>
@@ -137,29 +138,66 @@
 </tr>
 <tr>
 <td>networks</td>
-<td style="text-align:left">容器的網路指定至monitor名稱的區網路下</td>
+<td style="text-align:left">新增一個monitors的網路，將容器的網路指定至monitor名稱的區網路下</td>
+<td></td>
+</tr>
+<tr>
+<td>environment</td>
+<td style="text-align:left">設定grafana的設定檔環境變數</td>
 <td></td>
 </tr>
 </tbody>
 </table>
 <p>備註：記得docker-compose是有縮排的，容器與容器階級皆的縮牌要相同，同理服務與環境變數的設定是需要相同的空白段落，要注意否有對齊。</p>
-<p>再來準備安裝資料收集器：Telegraf<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://dl.influxdata.com/telegraf/releases/telegraf_1.9.5-1_amd64.deb</span><br></pre></td></tr></table></figure></p>
-<p>下載Telegraf的安裝包<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo dpkg -i telegraf_1.9.5-1_amd64.deb</span><br></pre></td></tr></table></figure></p>
-<p>解壓縮並安裝<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/telegraf/telegraf.conf</span><br></pre></td></tr></table></figure></p>
-<p>修改設定檔<br>將config內的設定檔照以下的資訊設定完成</p>
+<p>environment細部講解：</p>
 <blockquote>
-<p>logfile = “/var/log/telegraf/telegraf.log”</p>
-<p>urls = [“<a href="http://127.0.0.1:8086&quot;]" target="_blank" rel="noopener">http://127.0.0.1:8086&quot;]</a></p>
-<p>database = “telegraf”</p>
+<p>GF_SERVER_ROOT_URL</p>
 </blockquote>
-<p>logfile：主要是將telegraf的log檔案指定在特定路徑下<br>urls：指定要telegraf將收集的資料丟往哪一個資料庫存放<br>database：指定在丟資料時要存放進哪一個資料庫<br>儲存好了之後重啟服務 &amp; 確認服務<font color="Green">Running</font></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ service telegraf restart</span><br></pre></td></tr></table></figure>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ service telegraf status</span><br></pre></td></tr></table></figure>
+<p>指定grafana網站的使用網域，有購買網域給該grafana服務使用的話可以利用此設定</p>
+<blockquote>
+<p>GF_AUTH_DISABLE_LOGIN_FORM</p>
+</blockquote>
+<p>輸入帳號密碼功能的顯示，如果需要輸入帳號密碼與google第三方驗證登入同時存在的話這邊設定false</p>
+<blockquote>
+<p>GF_AUTH_GOOGLE_ENABLED</p>
+</blockquote>
+<p>開啟google第三方登入驗證功能</p>
+<blockquote>
+<p>GF_AUTH_GOOGLE_CLIENT_ID</p>
+</blockquote>
+<p>google驗證客端的ID。可以至GCP上的API和憑證中的憑證後點選建立憑證→OAuth用戶端ID建立後或給予一組用戶端ID可以填寫在此。注意這邊需要先到OAuth同意畫面新增已授權網域並選擇公開</p>
+<blockquote>
+<p>GF_AUTH_GOOGLE_CLIENT_SECRET<br>google驗證客端的密碼，同上在建立OAuth2.0用戶端ID的時候會同時給予密碼。</p>
+</blockquote>
+<blockquote>
+<p>GF_AUTH_GOOGLE_ALLOWED_DOMAINS<br>允許認證的登入的網域，也就是說你需要設定什麼帳號的網域登入google成功後才可以轉導登入進grafana</p>
+</blockquote>
+<blockquote>
+<p>GF_AUTH_GOOGLE_ALLOW_SIGN_UP</p>
+</blockquote>
+<p>允許google驗證登入</p>
+<hr>
+<p>docker-compose.yml檔案寫完之後存檔離開，準備要試著透過docker-compose啟動</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker-compose up -d</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker ps -a</span><br></pre></td></tr></table></figure>
+<p>檢查一下docker的容器狀況是否正常的啟動。<br>正常會出現像以下的容器STATUS的情況才對，告知你正常啟動的時間經過多久了</p>
+<img src="/2019/03/27/docker-compose建立Grafana與Influxdb/01.png">
+<hr>
+<p>異常判斷1：docker-compose無法啟動成功<br>如果這時候發生無法啟動docker-compose的時候，一個可能是權限不足造成無法啟動<br>如果不是的話可能是檔案內容縮排或者設定有問題，可以先試著一個一個容器與設定拿掉後再試著啟動</p>
+<p>異常判斷2：docker-compose無法執行<br>當下終端機的位置需要與docker-compose.yml所在的目錄位置是相同的，不然無法使用docker-compose的指令，因為當下的目錄無此docker-composeyml檔案所以無法執行</p>
+<hr>
+<h1 id="Acceptance"><a href="#Acceptance" class="headerlink" title="Acceptance"></a>Acceptance</h1><p>先開啟剛剛再docker-compose.yml所輸入的root url或者該機器的IP(防火牆記得開通設定80 Port)<br>就會出現該網站的登入畫面了</p>
+<p>備註：如果有設定google網域登入驗證的話還是只能使用網域方式，否則轉導回網域的時候會失敗!!<br><img src="/2019/03/27/docker-compose建立Grafana與Influxdb/02.png"></p>
+<p>先使用google帳號方式的登入後即可以看到內部Grafana的畫面了<br><img src="/2019/03/27/docker-compose建立Grafana與Influxdb/03.png"></p>
+<p><font color="blue">###注意###</font><br>這邊使用google登入的方式進去會新增一個使用者且是權限最低的Viewer，導致你除了看什麼也無法做，因此後續需要登出使用預設最高管理者帳號進行權限調整</p>
+<p>預設帳號 / 密碼 ：admin / admin</p>
+<p>登入後前往configuration→server Admin後將點選Grafana的google使用者帳號，將Permissions提升到Grafana Admin的權限<br><img src="/2019/03/27/docker-compose建立Grafana與Influxdb/03.png"></p>
+<p>後續即可以正常的登出使用google帳號進行登出入了!!</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjts2d22y0001rgk0qu73kp03" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjts43pif0000wok0cx83zv2s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -274,7 +312,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjts2d2300002rgk0nt0nkcjy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjts43pj50001wok0vzqe070w" class="article-share-link">Share</a>
       
       
     </footer>
@@ -319,7 +357,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/22/hello-world/" data-id="cjts2d22e0000rgk0b3m5gz4a" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/22/hello-world/" data-id="cjts43pje0002wok00n2y156l" class="article-share-link">Share</a>
       
       
     </footer>
