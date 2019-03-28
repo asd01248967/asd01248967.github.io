@@ -150,33 +150,33 @@
 </table>
 <p>備註：記得docker-compose是有縮排的，容器與容器階級皆的縮牌要相同，同理服務與環境變數的設定是需要相同的空白段落，要注意否有對齊。</p>
 <p>environment細部講解：</p>
-<blockquote>
-<p>GF_SERVER_ROOT_URL</p>
-</blockquote>
+<ul>
+<li>GF_SERVER_ROOT_URL</li>
+</ul>
 <p>指定grafana網站的使用網域，有購買網域給該grafana服務使用的話可以利用此設定</p>
-<blockquote>
-<p>GF_AUTH_DISABLE_LOGIN_FORM</p>
-</blockquote>
+<ul>
+<li>GF_AUTH_DISABLE_LOGIN_FORM</li>
+</ul>
 <p>輸入帳號密碼功能的顯示，如果需要輸入帳號密碼與google第三方驗證登入同時存在的話這邊設定false</p>
-<blockquote>
-<p>GF_AUTH_GOOGLE_ENABLED</p>
-</blockquote>
+<ul>
+<li>GF_AUTH_GOOGLE_ENABLED</li>
+</ul>
 <p>開啟google第三方登入驗證功能</p>
-<blockquote>
-<p>GF_AUTH_GOOGLE_CLIENT_ID</p>
-</blockquote>
+<ul>
+<li>GF_AUTH_GOOGLE_CLIENT_ID</li>
+</ul>
 <p>google驗證客端的ID。可以至GCP上的API和憑證中的憑證後點選建立憑證→OAuth用戶端ID建立後或給予一組用戶端ID可以填寫在此。注意這邊需要先到OAuth同意畫面新增已授權網域並選擇公開</p>
-<blockquote>
-<p>GF_AUTH_GOOGLE_CLIENT_SECRET</p>
-</blockquote>
+<ul>
+<li>GF_AUTH_GOOGLE_CLIENT_SECRET</li>
+</ul>
 <p>google驗證客端的密碼，同上在建立OAuth2.0用戶端ID的時候會同時給予密碼。</p>
-<blockquote>
-<p>GF_AUTH_GOOGLE_ALLOWED_DOMAINS</p>
-</blockquote>
+<ul>
+<li>GF_AUTH_GOOGLE_ALLOWED_DOMAINS</li>
+</ul>
 <p>允許認證的登入的網域，也就是說你需要設定什麼帳號的網域登入google成功後才可以轉導登入進grafana</p>
-<blockquote>
-<p>GF_AUTH_GOOGLE_ALLOW_SIGN_UP</p>
-</blockquote>
+<ul>
+<li>GF_AUTH_GOOGLE_ALLOW_SIGN_UP</li>
+</ul>
 <p>允許google驗證登入</p>
 <hr>
 <p>docker-compose.yml檔案寫完之後存檔離開，準備要試著透過docker-compose啟動</p>
@@ -184,8 +184,8 @@
 <p>檢查一下docker的容器狀況是否正常的啟動。<br>正常會出現像以下的容器STATUS的情況才對，告知你正常啟動的時間經過多久了<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker ps -a</span><br></pre></td></tr></table></figure></p>
 <img src="/2019/03/27/docker-compose建立Grafana與Influxdb/01.png">
 <hr>
-<p><font color="yellow">異常判斷1</font>：docker-compose無法啟動成功<br>如果這時候發生無法啟動docker-compose的時候，一個可能是權限不足造成無法啟動<br>如果不是的話可能是檔案內容縮排或者設定有問題，可以先試著一個一個容器與設定拿掉後再試著啟動</p>
-<p><font color="yellow">異常判斷2</font>：docker-compose無法執行<br>當下終端機的位置需要與docker-compose.yml所在的目錄位置是相同的，不然無法使用docker-compose的指令，因為當下的目錄無此docker-composeyml檔案所以無法執行</p>
+<p><font color="red">異常判斷1</font>：docker-compose無法啟動成功<br>如果這時候發生無法啟動docker-compose的時候，一個可能是權限不足造成無法啟動<br>如果不是的話可能是檔案內容縮排或者設定有問題，可以先試著一個一個容器與設定拿掉後再試著啟動</p>
+<p><font color="red">異常判斷2</font>：docker-compose無法執行<br>當下終端機的位置需要與docker-compose.yml所在的目錄位置是相同的，不然無法使用docker-compose的指令，因為當下的目錄無此docker-composeyml檔案所以無法執行</p>
 <hr>
 <h1 id="Acceptance"><a href="#Acceptance" class="headerlink" title="Acceptance"></a>Acceptance</h1><p>先開啟剛剛再docker-compose.yml所輸入的root url或者該機器的IP(防火牆記得開通設定80 Port)<br>就會出現該網站的登入畫面了</p>
 <p>備註：如果有設定google網域登入驗證的話還是只能使用網域方式，否則轉導回網域的時候會失敗!!<br><img src="/2019/03/27/docker-compose建立Grafana與Influxdb/02.png"></p>
@@ -198,7 +198,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjts64fg30000fck0jwkhl2yq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjts7xb550002s0k08vaafmas" class="article-share-link">Share</a>
       
       
     </footer>
@@ -313,7 +313,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjts64fgl0002fck08a2kg6r5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjts7xb4e0001s0k0o6nbu575" class="article-share-link">Share</a>
       
       
     </footer>
@@ -358,7 +358,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/22/hello-world/" data-id="cjts64fgd0001fck0i1xbu1ia" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/22/hello-world/" data-id="cjts7xb450000s0k009vm9xhg" class="article-share-link">Share</a>
       
       
     </footer>
