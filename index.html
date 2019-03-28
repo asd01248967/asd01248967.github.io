@@ -62,6 +62,113 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-docker-compose建立Grafana與Influxdb" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/27/docker-compose建立Grafana與Influxdb/" class="article-date">
+  <time datetime="2019-03-27T06:12:02.000Z" itemprop="datePublished">2019-03-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/27/docker-compose建立Grafana與Influxdb/">docker-compose建立Grafana與Influxdb</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>系統：Ubuntu 16.04 LTS</p>
+<h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br></pre></td></tr></table></figure>
+<p>用來取得遠端更新伺服器的套件檔案清單。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
+<p>自動找出所有有新版的軟體套件並逐一升級。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install docker.io</span><br></pre></td></tr></table></figure>
+<p>下載docker</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo curl -L <span class="string">"https://github.com/docker/compose/releases/download/1.23.2/docker-compose-<span class="variable">$(uname -s)</span>-<span class="variable">$(uname -m)</span>"</span> -o /usr/<span class="built_in">local</span>/bin/docker-compose</span><br></pre></td></tr></table></figure>
+<p>下載docker-compose(用來定義容器之間的關係與容器啟動的順序)<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chmod +x /usr/<span class="built_in">local</span>/bin/docker-compose</span><br></pre></td></tr></table></figure></p>
+<p>將剛剛下載的docker-compose的加上執行的權限<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mkdir -p /data/influxdb /data/grafana</span><br></pre></td></tr></table></figure></p>
+<p>新增資料夾，用來存在grafana與influxdb的資料(避免容器重啟後即消失)<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chmod 777 /data/grafana /data/influxdb</span><br></pre></td></tr></table></figure></p>
+<p>將資料夾權限開到所有帳號與服務皆可以寫入(不安全的做法，如可以的話請使用安全的權限寫入，如這邊無法寫入的話，容器將會因為啟動的時候要將資料寫入對應資料夾而失敗造成無線重試&amp;無限重啟)<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim docker-compose.yml</span><br></pre></td></tr></table></figure></p>
+<p>編寫docker-compose的檔案</p>
+<p>docker-compose內容如下:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">"3"</span></span><br><span class="line">services:</span><br><span class="line"></span><br><span class="line">  influxdb:</span><br><span class="line">    image: influxdb</span><br><span class="line">    container_name: influxdb</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">"8086:8086"</span></span><br><span class="line">    restart: always</span><br><span class="line">    volumes:</span><br><span class="line">      - /data/influxdb:/var/lib/influxdb</span><br><span class="line">    networks:</span><br><span class="line">      - monitor</span><br><span class="line">  grafana:</span><br><span class="line">    image: grafana/grafana</span><br><span class="line">    container_name: grafana</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">"80:3000"</span></span><br><span class="line">    restart: always</span><br><span class="line">    networks:</span><br><span class="line">      - monitor</span><br><span class="line">    volumes:</span><br><span class="line">      - /data/grafana:/var/lib/grafana</span><br><span class="line">    environment:</span><br><span class="line">      - GF_SERVER_ROOT_URL=http://grafana.costworlds.com</span><br><span class="line">      - GF_AUTH_DISABLE_LOGIN_FORM=<span class="literal">false</span></span><br><span class="line">      - GF_AUTH_GOOGLE_ENABLED=<span class="literal">true</span></span><br><span class="line">      - GF_AUTH_GOOGLE_CLIENT_ID=957269883000-82e4758ih5a74u9jj7rldc427lg67sfl.apps.googleusercontent.com</span><br><span class="line">      - GF_AUTH_GOOGLE_CLIENT_SECRET=A1dclGMsDOXepyv6oXhAfpMu</span><br><span class="line">      - GF_AUTH_GOOGLE_ALLOWED_DOMAINS=gosmio.biz</span><br><span class="line">      - GF_AUTH_GOOGLE_ALLOW_SIGN_UP=<span class="literal">true</span></span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_PROVIDER=s3</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_BUCKET_URL=https://s3-ap-southeast-1.amazonaws.com/gt-to3</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_ACCESS_KEY=AKIAIVBWSCYVD45MHWHQ</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_SECRET_KEY=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</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">networks:</span><br><span class="line">  monitor:</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>容器服務</th>
+<th style="text-align:left">Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>version</td>
+<td style="text-align:left">docker-compose的版本</td>
+<td></td>
+</tr>
+<tr>
+<td>services</td>
+<td style="text-align:left">將</td>
+</tr>
+<tr>
+<td>container_name</td>
+<td style="text-align:left">給予容器的名稱</td>
+<td></td>
+</tr>
+<tr>
+<td>ports</td>
+<td style="text-align:left">將外部主機對應至內部容器的Port設定</td>
+<td></td>
+</tr>
+<tr>
+<td>restart</td>
+<td style="text-align:left">容器在非正常的關閉或者停止下會被自動給重新啟動</td>
+<td></td>
+</tr>
+<tr>
+<td>volumes</td>
+<td style="text-align:left">容器可以持久化</td>
+</tr>
+<tr>
+<td>networks</td>
+<td style="text-align:left">容器的網路指定至monitor名稱的區網路下</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>備註：記得docker-compose是有縮排的，容器與容器階級皆的縮牌要相同，同理服務與環境變數的設定是需要相同的空白段落，要注意否有對齊。</p>
+<p>再來準備安裝資料收集器：Telegraf<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://dl.influxdata.com/telegraf/releases/telegraf_1.9.5-1_amd64.deb</span><br></pre></td></tr></table></figure></p>
+<p>下載Telegraf的安裝包<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo dpkg -i telegraf_1.9.5-1_amd64.deb</span><br></pre></td></tr></table></figure></p>
+<p>解壓縮並安裝<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/telegraf/telegraf.conf</span><br></pre></td></tr></table></figure></p>
+<p>修改設定檔<br>將config內的設定檔照以下的資訊設定完成</p>
+<blockquote>
+<p>logfile = “/var/log/telegraf/telegraf.log”</p>
+<p>urls = [“<a href="http://127.0.0.1:8086&quot;]" target="_blank" rel="noopener">http://127.0.0.1:8086&quot;]</a></p>
+<p>database = “telegraf”</p>
+</blockquote>
+<p>logfile：主要是將telegraf的log檔案指定在特定路徑下<br>urls：指定要telegraf將收集的資料丟往哪一個資料庫存放<br>database：指定在丟資料時要存放進哪一個資料庫<br>儲存好了之後重啟服務 &amp; 確認服務<font color="Green">Running</font></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ service telegraf restart</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ service telegraf status</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjts2d22y0001rgk0qu73kp03" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-利用docker-compose建立Grafana與上傳圖片功能" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" class="article-date">
@@ -167,7 +274,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjtokxaup0001iok0z352p6dy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjts2d2300002rgk0nt0nkcjy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -212,7 +319,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/22/hello-world/" data-id="cjtokxaul0000iok0k33c277s" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/22/hello-world/" data-id="cjts2d22e0000rgk0b3m5gz4a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -251,6 +358,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/03/27/docker-compose建立Grafana與Influxdb/">docker-compose建立Grafana與Influxdb</a>
+          </li>
         
           <li>
             <a href="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/">利用docker-compose建立Grafana與上傳圖片功能</a>
