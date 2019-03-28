@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/02.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/03.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/03.png">
-<meta property="og:updated_time" content="2019-03-28T05:53:27.325Z">
+<meta property="og:updated_time" content="2019-03-28T06:13:21.522Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker-compose建立Grafana與Influxdb">
 <meta name="twitter:description" content="系統：Ubuntu 16.04 LTS Installation1$ sudo apt-get update 用來取得遠端更新伺服器的套件檔案清單。 1$ sudo apt-get upgrade 自動找出所有有新版的軟體套件並逐一升級。 1$ sudo apt-get install docker.io 下載docker 1$ sudo curl -L &quot;https://github.com/d">
@@ -201,11 +201,14 @@
 <p>預設帳號 / 密碼 ：admin / admin</p>
 <p>登入後前往configuration→server Admin後將點選Grafana的google使用者帳號，將Permissions提升到Grafana Admin的權限<br><img src="/2019/03/27/docker-compose建立Grafana與Influxdb/03.png"></p>
 <p>後續即可以正常的登出使用google帳號進行登出入了!!</p>
+<p>之後再把docker-compose.yml檔案內的- GF_AUTH_DISABLE_LOGIN_FORM修改為true<br>重新將容器啟動!!就可以將帳號密碼的輸入功能顯示給關閉了</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker-compose down</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker-compose up -d</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjts7xb550002s0k08vaafmas" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjts8sapk0000ukk0hg4d9h27" class="article-share-link">Share</a>
       
       
     </footer>
