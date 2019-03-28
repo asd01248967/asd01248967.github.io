@@ -62,6 +62,74 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-搭配Grafana的資料收集器Telegraf" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/28/搭配Grafana的資料收集器Telegraf/" class="article-date">
+  <time datetime="2019-03-28T06:15:35.000Z" itemprop="datePublished">2019-03-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/28/搭配Grafana的資料收集器Telegraf/">搭配Grafana的資料收集器Telegraf</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="介紹"><a href="#介紹" class="headerlink" title="介紹"></a>介紹</h1><ul>
+<li>telegraf 是用Go寫的代理程式，可以用在收集系統和服務的統計資料，它擁有輸入套件，可以直接從系統抓取指標數據，從第三方API獲得指標數據，甚至可以通過statsd和Kafka得到資料。它還具備输出套件，可以將採集的數據發送到各種資料庫儲存。比如InfluxDB，Graphite，OpenTSDB，Datadog，Librato，Kafka，MQTT，NSQ等等。支援 Linux  與 Windows。</li>
+</ul>
+<img src="/2019/03/28/搭配Grafana的資料收集器Telegraf/01.png">
+<h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><p>成上一個主題Grafana與Influxdb安裝完後開始要建立DashBoard進行資料視覺化分析了<br>但是因為目前Influxdb還沒開始建造存在Metric的資料庫因此無法拉取Metric繪畫成圖片</p>
+<p>因此安裝Telegraf並設定收集設定的機器資料然後傳送到Influxdb的8086 Port，就是Telergaf最主要的功能了!</p>
+<p>接下來是安裝教學<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://dl.influxdata.com/telegraf/releases/telegraf_1.9.5-1_amd64.deb</span><br></pre></td></tr></table></figure></p>
+<p>下載Telegraf的安裝包<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo dpkg -i telegraf_1.9.5-1_amd64.deb</span><br></pre></td></tr></table></figure></p>
+<p>解壓縮並安裝<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/telegraf/telegraf.conf</span><br></pre></td></tr></table></figure></p>
+<p>修改設定檔<br>將config內的設定檔照以下的資訊設定完成</p>
+<ul>
+<li>logfile = “/var/log/telegraf/telegraf.log”</li>
+<li></li>
+<li>urls = [“<a href="http://127.0.0.1:8086&quot;]" target="_blank" rel="noopener">http://127.0.0.1:8086&quot;]</a></li>
+<li></li>
+<li>database = “telegraf”</li>
+</ul>
+<p>logfile：主要是將telegraf的log檔案指定在特定路徑下<br>urls：指定要telegraf將收集的資料丟往哪一個資料庫存放<br>database：指定在丟資料時要存放進哪一個資料庫<br>儲存好了之後重啟服務 &amp; 確認服務<font color="Green">Running</font></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ service telegraf restart</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ service telegraf status</span><br></pre></td></tr></table></figure>
+<img src="/2019/03/28/搭配Grafana的資料收集器Telegraf/02.png">
+<h1 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h1><p>之後telegraf會將電腦的預設系統資訊傳送到influxdb，telegra的configuration有著最低配置的系統資料收集，CPU、RAM、DISK、NETWORK..等等<br>現在照著把上述資訊給拉出圖表來觀看</p>
+<p>step.1 先登入到Grafana後點選Configuration → Data Source → InfluxDB，照著下列資訊設定</p>
+<ul>
+<li>URL ：<a href="http://influxdb:8086" target="_blank" rel="noopener">http://influxdb:8086</a></li>
+<li>Database ：telegraf<br>之後點選save &amp; test</li>
+</ul>
+<p>step.2 點選左上的 ＋ → Dashboard → Add Query<br>照以下的圖片設定即可已出現cpu的繪圖</p>
+<img src="/2019/03/28/搭配Grafana的資料收集器Telegraf/03.png">
+<p>-<br><img src="/2019/03/28/搭配Grafana的資料收集器Telegraf/04.png"></p>
+<p>-<br><img src="/2019/03/28/搭配Grafana的資料收集器Telegraf/05.png"></p>
+<p>後續要加上其餘的記憶體與硬碟與網路封包等都可以再剛剛顯示cpu的選項調整<br>cpu的位置是Input的類別(e.q 硬碟、記憶體、網路、程序、系統、io量等)<br>where是選擇host或者是更細部的子類別選項等<br>select是該類別下的所有被收集來的資訊(e.q 硬碟大小、容量、使用量、空閒等)<br>Group By 的time是時間區間與，fill是直的表現方式</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/03/28/搭配Grafana的資料收集器Telegraf/" data-id="cjts94i3j00026ck052atnaio" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-docker-compose建立Grafana與Influxdb" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/03/27/docker-compose建立Grafana與Influxdb/" class="article-date">
@@ -85,6 +153,13 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>系統：Ubuntu 16.04 LTS</p>
+<p>#介紹</p>
+<ul>
+<li><p>grafana 是一個開源數據分析和視覺化圖形套件，常用在視覺化基礎設施的性能資料和應用程式分析的時間序列資料。</p>
+</li>
+<li><p>influxdb 是一款專為時序性資料開發的高性能資料庫，使用GO語言開發且開源！不同的是可以直接對 influxdb 用 curl 新增刪除修改資料。</p>
+</li>
+</ul>
 <h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br></pre></td></tr></table></figure>
 <p>用來取得遠端更新伺服器的套件檔案清單。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
@@ -201,7 +276,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjts8sapk0000ukk0hg4d9h27" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjts94i3400006ck0tfad5e4f" class="article-share-link">Share</a>
       
       
     </footer>
@@ -285,7 +360,7 @@
 <p>編寫docker-compose的檔案</p>
 <p>這樣一來就能讓grafana的服務存取金鑰內容後可以去跟storage做存取圖片的動作權限了</p>
 <p>docker-compose內容如下…</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">"3"</span></span><br><span class="line">services:</span><br><span class="line"></span><br><span class="line">  influxdb:</span><br><span class="line">    image: influxdb</span><br><span class="line">    container_name: influxdb</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">"8086:8086"</span></span><br><span class="line">    restart: always</span><br><span class="line">    volumes:</span><br><span class="line">      - /data/influxdb:/var/lib/influxdb</span><br><span class="line">    networks:</span><br><span class="line">      - monitor</span><br><span class="line">  grafana:</span><br><span class="line">    image: grafana/grafana</span><br><span class="line">    container_name: grafana</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">"80:3000"</span></span><br><span class="line">    restart: always</span><br><span class="line">    networks:</span><br><span class="line">      - monitor</span><br><span class="line">    volumes:</span><br><span class="line">      - /data/grafana:/var/lib/grafana</span><br><span class="line">    environment:</span><br><span class="line">      - GF_SERVER_ROOT_URL=http://grafana.costworlds.com</span><br><span class="line">      - GF_AUTH_DISABLE_LOGIN_FORM=<span class="literal">false</span></span><br><span class="line">      - GF_AUTH_GOOGLE_ENABLED=<span class="literal">true</span></span><br><span class="line">      - GF_AUTH_GOOGLE_CLIENT_ID=957269883000-82e4758ih5a74u9jj7rldc427lg67sfl.apps.googleusercontent.com</span><br><span class="line">      - GF_AUTH_GOOGLE_CLIENT_SECRET=A1dclGMsDOXepyv6oXhAfpMu</span><br><span class="line">      - GF_AUTH_GOOGLE_ALLOWED_DOMAINS=gosmio.biz</span><br><span class="line">      - GF_AUTH_GOOGLE_ALLOW_SIGN_UP=<span class="literal">true</span></span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_PROVIDER=s3</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_BUCKET_URL=https://s3-ap-southeast-1.amazonaws.com/gt-to3</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_ACCESS_KEY=AKIAIVBWSCYVD45MHWHQ</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_SECRET_KEY=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</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">networks:</span><br><span class="line">  monitor:</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">"3"</span></span><br><span class="line">services:</span><br><span class="line"></span><br><span class="line">  influxdb:</span><br><span class="line">    image: influxdb</span><br><span class="line">    container_name: influxdb</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">"8086:8086"</span></span><br><span class="line">    restart: always</span><br><span class="line">    volumes:</span><br><span class="line">      - /data/influxdb:/var/lib/influxdb</span><br><span class="line">    networks:</span><br><span class="line">      - monitor</span><br><span class="line">  grafana:</span><br><span class="line">    image: grafana/grafana</span><br><span class="line">    container_name: grafana</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">"80:3000"</span></span><br><span class="line">    restart: always</span><br><span class="line">    networks:</span><br><span class="line">      - monitor</span><br><span class="line">    volumes:</span><br><span class="line">      - /data/grafana:/var/lib/grafana</span><br><span class="line">    environment:</span><br><span class="line">      - GF_SERVER_ROOT_URL=http://grafana.costworlds.com</span><br><span class="line">      - GF_AUTH_DISABLE_LOGIN_FORM=<span class="literal">false</span></span><br><span class="line">      - GF_AUTH_GOOGLE_ENABLED=<span class="literal">true</span></span><br><span class="line">      - GF_AUTH_GOOGLE_CLIENT_ID=957269883000-82e4758ih5a74u9jj7rldc427lg67sfl.apps.googleusercontent.com</span><br><span class="line">      - GF_AUTH_GOOGLE_CLIENT_SECRET=A1dclGMsDOXepyv6oXhAfpMu</span><br><span class="line">      - GF_AUTH_GOOGLE_ALLOWED_DOMAINS=gosmio.biz</span><br><span class="line">      - GF_AUTH_GOOGLE_ALLOW_SIGN_UP=<span class="literal">true</span></span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_PROVIDER=gcs</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_BUCKET_URL=https://s3-ap-southeast-1.amazonaws.com/gt-to3</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_ACCESS_KEY=AKIAIVBWSCYVD45MHWHQ</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_SECRET_KEY=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</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">networks:</span><br><span class="line">  monitor:</span><br></pre></td></tr></table></figure>
 <p>記得docker-compose是有縮排的，因此服務與環境變數之間的空白要注意否有對齊</p>
 <p>再來準備安裝資料收集器：Telegraf<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://dl.influxdata.com/telegraf/releases/telegraf_1.9.5-1_amd64.deb</span><br></pre></td></tr></table></figure></p>
 <p>下載Telegraf的安裝包<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo dpkg -i telegraf_1.9.5-1_amd64.deb</span><br></pre></td></tr></table></figure></p>
@@ -316,52 +391,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjts8saqd0001ukk05fe61lr3" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/03/22/hello-world/" class="article-date">
-  <time datetime="2019-03-22T10:37:56.432Z" itemprop="datePublished">2019-03-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/22/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/22/hello-world/" data-id="cjts8saqg0002ukk0s6nuq5wu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjts94i3e00016ck0i9xmawvq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -402,15 +432,15 @@
       <ul>
         
           <li>
+            <a href="/2019/03/28/搭配Grafana的資料收集器Telegraf/">搭配Grafana的資料收集器Telegraf</a>
+          </li>
+        
+          <li>
             <a href="/2019/03/27/docker-compose建立Grafana與Influxdb/">docker-compose建立Grafana與Influxdb</a>
           </li>
         
           <li>
             <a href="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/">利用docker-compose建立Grafana與上傳圖片功能</a>
-          </li>
-        
-          <li>
-            <a href="/2019/03/22/hello-world/">Hello World</a>
           </li>
         
       </ul>

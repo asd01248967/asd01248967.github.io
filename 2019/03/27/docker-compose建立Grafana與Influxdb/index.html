@@ -7,21 +7,21 @@
   
   <title>docker-compose建立Grafana與Influxdb | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="系統：Ubuntu 16.04 LTS Installation1$ sudo apt-get update 用來取得遠端更新伺服器的套件檔案清單。 1$ sudo apt-get upgrade 自動找出所有有新版的軟體套件並逐一升級。 1$ sudo apt-get install docker.io 下載docker 1$ sudo curl -L &quot;https://github.com/d">
+  <meta name="description" content="系統：Ubuntu 16.04 LTS #介紹  grafana 是一個開源數據分析和視覺化圖形套件，常用在視覺化基礎設施的性能資料和應用程式分析的時間序列資料。  influxdb 是一款專為時序性資料開發的高性能資料庫，使用GO語言開發且開源！不同的是可以直接對 influxdb 用 curl 新增刪除修改資料。   Installation1$ sudo apt-get update 用來取">
 <meta property="og:type" content="article">
 <meta property="og:title" content="docker-compose建立Grafana與Influxdb">
 <meta property="og:url" content="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="系統：Ubuntu 16.04 LTS Installation1$ sudo apt-get update 用來取得遠端更新伺服器的套件檔案清單。 1$ sudo apt-get upgrade 自動找出所有有新版的軟體套件並逐一升級。 1$ sudo apt-get install docker.io 下載docker 1$ sudo curl -L &quot;https://github.com/d">
+<meta property="og:description" content="系統：Ubuntu 16.04 LTS #介紹  grafana 是一個開源數據分析和視覺化圖形套件，常用在視覺化基礎設施的性能資料和應用程式分析的時間序列資料。  influxdb 是一款專為時序性資料開發的高性能資料庫，使用GO語言開發且開源！不同的是可以直接對 influxdb 用 curl 新增刪除修改資料。   Installation1$ sudo apt-get update 用來取">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/01.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/02.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/03.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/03.png">
-<meta property="og:updated_time" content="2019-03-28T06:13:21.522Z">
+<meta property="og:updated_time" content="2019-03-28T06:20:57.612Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker-compose建立Grafana與Influxdb">
-<meta name="twitter:description" content="系統：Ubuntu 16.04 LTS Installation1$ sudo apt-get update 用來取得遠端更新伺服器的套件檔案清單。 1$ sudo apt-get upgrade 自動找出所有有新版的軟體套件並逐一升級。 1$ sudo apt-get install docker.io 下載docker 1$ sudo curl -L &quot;https://github.com/d">
+<meta name="twitter:description" content="系統：Ubuntu 16.04 LTS #介紹  grafana 是一個開源數據分析和視覺化圖形套件，常用在視覺化基礎設施的性能資料和應用程式分析的時間序列資料。  influxdb 是一款專為時序性資料開發的高性能資料庫，使用GO語言開發且開源！不同的是可以直接對 influxdb 用 curl 新增刪除修改資料。   Installation1$ sudo apt-get update 用來取">
 <meta name="twitter:image" content="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/01.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -92,6 +92,13 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>系統：Ubuntu 16.04 LTS</p>
+<p>#介紹</p>
+<ul>
+<li><p>grafana 是一個開源數據分析和視覺化圖形套件，常用在視覺化基礎設施的性能資料和應用程式分析的時間序列資料。</p>
+</li>
+<li><p>influxdb 是一款專為時序性資料開發的高性能資料庫，使用GO語言開發且開源！不同的是可以直接對 influxdb 用 curl 新增刪除修改資料。</p>
+</li>
+</ul>
 <h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br></pre></td></tr></table></figure>
 <p>用來取得遠端更新伺服器的套件檔案清單。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
@@ -208,7 +215,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjts8sapk0000ukk0hg4d9h27" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjts94i3400006ck0tfad5e4f" class="article-share-link">Share</a>
       
       
     </footer>
@@ -216,6 +223,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2019/03/28/搭配Grafana的資料收集器Telegraf/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          搭配Grafana的資料收集器Telegraf
+        
+      </div>
+    </a>
   
   
     <a href="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" id="article-nav-older" class="article-nav-link-wrap">
@@ -257,15 +273,15 @@
       <ul>
         
           <li>
+            <a href="/2019/03/28/搭配Grafana的資料收集器Telegraf/">搭配Grafana的資料收集器Telegraf</a>
+          </li>
+        
+          <li>
             <a href="/2019/03/27/docker-compose建立Grafana與Influxdb/">docker-compose建立Grafana與Influxdb</a>
           </li>
         
           <li>
             <a href="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/">利用docker-compose建立Grafana與上傳圖片功能</a>
-          </li>
-        
-          <li>
-            <a href="/2019/03/22/hello-world/">Hello World</a>
           </li>
         
       </ul>

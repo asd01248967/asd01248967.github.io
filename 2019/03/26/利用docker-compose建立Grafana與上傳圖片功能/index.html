@@ -42,7 +42,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/20.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/23.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/25.png">
-<meta property="og:updated_time" content="2019-03-25T16:42:09.216Z">
+<meta property="og:updated_time" content="2019-03-28T06:17:40.072Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用docker-compose建立Grafana與上傳圖片功能">
 <meta name="twitter:description" content="docker-compose實務上一個服務，一定由眾多 service 共同運作。若只使用 docker run，則勢必寫 Bash 來管理 4 個 service，還必須考慮：  4 個 service 必須在同一個虛擬 network 下 4 個 service 的啟動順序  … 等問題。Docker 為此提出 Docker Compose 概念。在 docker-compose.yml 檔">
@@ -167,7 +167,7 @@
 <p>編寫docker-compose的檔案</p>
 <p>這樣一來就能讓grafana的服務存取金鑰內容後可以去跟storage做存取圖片的動作權限了</p>
 <p>docker-compose內容如下…</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">"3"</span></span><br><span class="line">services:</span><br><span class="line"></span><br><span class="line">  influxdb:</span><br><span class="line">    image: influxdb</span><br><span class="line">    container_name: influxdb</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">"8086:8086"</span></span><br><span class="line">    restart: always</span><br><span class="line">    volumes:</span><br><span class="line">      - /data/influxdb:/var/lib/influxdb</span><br><span class="line">    networks:</span><br><span class="line">      - monitor</span><br><span class="line">  grafana:</span><br><span class="line">    image: grafana/grafana</span><br><span class="line">    container_name: grafana</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">"80:3000"</span></span><br><span class="line">    restart: always</span><br><span class="line">    networks:</span><br><span class="line">      - monitor</span><br><span class="line">    volumes:</span><br><span class="line">      - /data/grafana:/var/lib/grafana</span><br><span class="line">    environment:</span><br><span class="line">      - GF_SERVER_ROOT_URL=http://grafana.costworlds.com</span><br><span class="line">      - GF_AUTH_DISABLE_LOGIN_FORM=<span class="literal">false</span></span><br><span class="line">      - GF_AUTH_GOOGLE_ENABLED=<span class="literal">true</span></span><br><span class="line">      - GF_AUTH_GOOGLE_CLIENT_ID=957269883000-82e4758ih5a74u9jj7rldc427lg67sfl.apps.googleusercontent.com</span><br><span class="line">      - GF_AUTH_GOOGLE_CLIENT_SECRET=A1dclGMsDOXepyv6oXhAfpMu</span><br><span class="line">      - GF_AUTH_GOOGLE_ALLOWED_DOMAINS=gosmio.biz</span><br><span class="line">      - GF_AUTH_GOOGLE_ALLOW_SIGN_UP=<span class="literal">true</span></span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_PROVIDER=s3</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_BUCKET_URL=https://s3-ap-southeast-1.amazonaws.com/gt-to3</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_ACCESS_KEY=AKIAIVBWSCYVD45MHWHQ</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_SECRET_KEY=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</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">networks:</span><br><span class="line">  monitor:</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">"3"</span></span><br><span class="line">services:</span><br><span class="line"></span><br><span class="line">  influxdb:</span><br><span class="line">    image: influxdb</span><br><span class="line">    container_name: influxdb</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">"8086:8086"</span></span><br><span class="line">    restart: always</span><br><span class="line">    volumes:</span><br><span class="line">      - /data/influxdb:/var/lib/influxdb</span><br><span class="line">    networks:</span><br><span class="line">      - monitor</span><br><span class="line">  grafana:</span><br><span class="line">    image: grafana/grafana</span><br><span class="line">    container_name: grafana</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">"80:3000"</span></span><br><span class="line">    restart: always</span><br><span class="line">    networks:</span><br><span class="line">      - monitor</span><br><span class="line">    volumes:</span><br><span class="line">      - /data/grafana:/var/lib/grafana</span><br><span class="line">    environment:</span><br><span class="line">      - GF_SERVER_ROOT_URL=http://grafana.costworlds.com</span><br><span class="line">      - GF_AUTH_DISABLE_LOGIN_FORM=<span class="literal">false</span></span><br><span class="line">      - GF_AUTH_GOOGLE_ENABLED=<span class="literal">true</span></span><br><span class="line">      - GF_AUTH_GOOGLE_CLIENT_ID=957269883000-82e4758ih5a74u9jj7rldc427lg67sfl.apps.googleusercontent.com</span><br><span class="line">      - GF_AUTH_GOOGLE_CLIENT_SECRET=A1dclGMsDOXepyv6oXhAfpMu</span><br><span class="line">      - GF_AUTH_GOOGLE_ALLOWED_DOMAINS=gosmio.biz</span><br><span class="line">      - GF_AUTH_GOOGLE_ALLOW_SIGN_UP=<span class="literal">true</span></span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_PROVIDER=gcs</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_BUCKET_URL=https://s3-ap-southeast-1.amazonaws.com/gt-to3</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_ACCESS_KEY=AKIAIVBWSCYVD45MHWHQ</span><br><span class="line">      - GF_EXTERNAL_IMAGE_STORAGE_S3_SECRET_KEY=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</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">networks:</span><br><span class="line">  monitor:</span><br></pre></td></tr></table></figure>
 <p>記得docker-compose是有縮排的，因此服務與環境變數之間的空白要注意否有對齊</p>
 <p>再來準備安裝資料收集器：Telegraf<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://dl.influxdata.com/telegraf/releases/telegraf_1.9.5-1_amd64.deb</span><br></pre></td></tr></table></figure></p>
 <p>下載Telegraf的安裝包<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo dpkg -i telegraf_1.9.5-1_amd64.deb</span><br></pre></td></tr></table></figure></p>
@@ -198,7 +198,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjts8saqd0001ukk05fe61lr3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjts94i3e00016ck0i9xmawvq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -216,11 +216,6 @@
       </div>
     </a>
   
-  
-    <a href="/2019/03/22/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
-    </a>
   
 </nav>
 
@@ -256,15 +251,15 @@
       <ul>
         
           <li>
+            <a href="/2019/03/28/搭配Grafana的資料收集器Telegraf/">搭配Grafana的資料收集器Telegraf</a>
+          </li>
+        
+          <li>
             <a href="/2019/03/27/docker-compose建立Grafana與Influxdb/">docker-compose建立Grafana與Influxdb</a>
           </li>
         
           <li>
             <a href="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/">利用docker-compose建立Grafana與上傳圖片功能</a>
-          </li>
-        
-          <li>
-            <a href="/2019/03/22/hello-world/">Hello World</a>
           </li>
         
       </ul>
