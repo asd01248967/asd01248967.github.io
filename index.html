@@ -62,6 +62,53 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Grafana搭配Slack告警與GCS圖片發送" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/" class="article-date">
+  <time datetime="2019-03-28T08:35:32.000Z" itemprop="datePublished">2019-03-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/">Grafana搭配Slack告警與GCS圖片發送</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>呈上個主題，建立好dashboard與panel的分析圖表後(cpu、disk、ram、network等)</p>
+<p>我們需要讓有一個機制可以在監控突然出現異常的時候可以發出通知告知管理人員</p>
+<p>並且發送相對應的告警的截圖告知是哪一個監控告警，目前的值維多少，圖形是如何的趨勢</p>
+<h1 id="Configuration-alert"><a href="#Configuration-alert" class="headerlink" title="Configuration alert"></a>Configuration alert</h1><p>step.1 首先先註冊一個slack的帳號與下載slack的應用程序或app</p>
+<p>step.2 創建一個channel的頻道(也可以說是workspace的地方)，並將需要的管理人員都加入進去</p>
+<p>stpe.3 前往slack的app Directory應用程序，登入後選擇所要發送告警通知的channel，去申請Incoming WebHooks的URL</p>
+<p>網址：<a href="https://slack.com/apps" target="_blank" rel="noopener">https://slack.com/apps</a></p>
+<p>step.4 回來Grafana的Alerting → notifications channels → New Channel</p>
+<img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/01.png">
+<p>填上名稱、類型、web hook url之後把send on all alerts與include image給勾選起來後點選save &amp; test</p>
+<img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/02.png">
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/" data-id="cjtxzemyc00009kk0tjbb3l42" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-搭配Grafana的資料收集器Telegraf" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/03/28/搭配Grafana的資料收集器Telegraf/" class="article-date">
@@ -115,12 +162,13 @@
 <img src="/2019/03/28/搭配Grafana的資料收集器Telegraf/03.png">
 <p>-<br><img src="/2019/03/28/搭配Grafana的資料收集器Telegraf/04.png"></p>
 <p>-<br><img src="/2019/03/28/搭配Grafana的資料收集器Telegraf/05.png"></p>
-<p>後續要加上其餘的記憶體與硬碟與網路封包等都可以再剛剛顯示cpu的選項調整<br>cpu的位置是Input的類別(e.q 硬碟、記憶體、網路、程序、系統、io量等)<br>where是選擇host或者是更細部的子類別選項等<br>select是該類別下的所有被收集來的資訊(e.q 硬碟大小、容量、使用量、空閒等)<br>Group By 的time是時間區間與，fill是直的表現方式</p>
+<p>後續要加上其餘的記憶體與硬碟與網路封包等都可以再剛剛顯示cpu的選項調整<br>cpu的位置是Input的類別(e.q 硬碟、記憶體、網路、程序、系統、io量等)<br>where是選擇host或者是更細部的子類別選項等<br>select是該類別下的所有被收集來的資訊(e.q 硬碟大小、容量、使用量、空閒等)<br>Group By 的time是時間區間與，fill是值的表現方式</p>
+<p>之後會再寫一篇介紹telegraf怎麼加入ping與snmp的功能<br>主要也是針對configuration的部分新增ping與snmp的input的段落</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/28/搭配Grafana的資料收集器Telegraf/" data-id="cjts94i3j00026ck052atnaio" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/28/搭配Grafana的資料收集器Telegraf/" data-id="cjtxzemyh00019kk04u049j71" class="article-share-link">Share</a>
       
       
     </footer>
@@ -276,7 +324,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjts94i3400006ck0tfad5e4f" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjtxzemzh00029kk0rlfo8zrd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -391,7 +439,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjts94i3e00016ck0i9xmawvq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjtxzemzj00039kk0bhloj11q" class="article-share-link">Share</a>
       
       
     </footer>
@@ -430,6 +478,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/">Grafana搭配Slack告警與GCS圖片發送</a>
+          </li>
         
           <li>
             <a href="/2019/03/28/搭配Grafana的資料收集器Telegraf/">搭配Grafana的資料收集器Telegraf</a>

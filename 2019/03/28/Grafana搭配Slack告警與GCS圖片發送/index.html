@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Grafana搭配Slack告警與GCS圖片發送 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="呈上個主題，建立好dashboard與panel的分析圖表後(cpu、disk、ram、network等) 我們需要讓有一個機制可以在監控突然出現異常的時候可以發出通知告知管理人員 並且發送相對應的告警的截圖告知是哪一個監控告警，目前的值維多少，圖形是如何的趨勢 Configuration alertstep.1 首先先註冊一個slack的帳號與下載slack的應用程序或app step.2 創建">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Grafana搭配Slack告警與GCS圖片發送">
+<meta property="og:url" content="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="呈上個主題，建立好dashboard與panel的分析圖表後(cpu、disk、ram、network等) 我們需要讓有一個機制可以在監控突然出現異常的時候可以發出通知告知管理人員 並且發送相對應的告警的截圖告知是哪一個監控告警，目前的值維多少，圖形是如何的趨勢 Configuration alertstep.1 首先先註冊一個slack的帳號與下載slack的應用程序或app step.2 創建">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/01.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/02.png">
+<meta property="og:updated_time" content="2019-03-28T09:25:34.243Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Grafana搭配Slack告警與GCS圖片發送">
+<meta name="twitter:description" content="呈上個主題，建立好dashboard與panel的分析圖表後(cpu、disk、ram、network等) 我們需要讓有一個機制可以在監控突然出現異常的時候可以發出通知告知管理人員 並且發送相對應的告警的截圖告知是哪一個監控告警，目前的值維多少，圖形是如何的趨勢 Configuration alertstep.1 首先先註冊一個slack的帳號與下載slack的應用程序或app step.2 創建">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/01.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Grafana搭配Slack告警與GCS圖片發送" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/" class="article-date">
+  <time datetime="2019-03-28T08:35:32.000Z" itemprop="datePublished">2019-03-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Grafana搭配Slack告警與GCS圖片發送
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>呈上個主題，建立好dashboard與panel的分析圖表後(cpu、disk、ram、network等)</p>
+<p>我們需要讓有一個機制可以在監控突然出現異常的時候可以發出通知告知管理人員</p>
+<p>並且發送相對應的告警的截圖告知是哪一個監控告警，目前的值維多少，圖形是如何的趨勢</p>
+<h1 id="Configuration-alert"><a href="#Configuration-alert" class="headerlink" title="Configuration alert"></a>Configuration alert</h1><p>step.1 首先先註冊一個slack的帳號與下載slack的應用程序或app</p>
+<p>step.2 創建一個channel的頻道(也可以說是workspace的地方)，並將需要的管理人員都加入進去</p>
+<p>stpe.3 前往slack的app Directory應用程序，登入後選擇所要發送告警通知的channel，去申請Incoming WebHooks的URL</p>
+<p>網址：<a href="https://slack.com/apps" target="_blank" rel="noopener">https://slack.com/apps</a></p>
+<p>step.4 回來Grafana的Alerting → notifications channels → New Channel</p>
+<img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/01.png">
+<p>填上名稱、類型、web hook url之後把send on all alerts與include image給勾選起來後點選save &amp; test</p>
+<img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/02.png">
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/" data-id="cjtxzemyc00009kk0tjbb3l42" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/03/28/搭配Grafana的資料收集器Telegraf/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">搭配Grafana的資料收集器Telegraf</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/">Grafana搭配Slack告警與GCS圖片發送</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/28/搭配Grafana的資料收集器Telegraf/">搭配Grafana的資料收集器Telegraf</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/27/docker-compose建立Grafana與Influxdb/">docker-compose建立Grafana與Influxdb</a>
+          </li>
+        
+          <li>
+            <a href="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/">利用docker-compose建立Grafana與上傳圖片功能</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/03/28/搭配Grafana的資料收集器Telegraf/03.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/28/搭配Grafana的資料收集器Telegraf/04.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/28/搭配Grafana的資料收集器Telegraf/05.png">
-<meta property="og:updated_time" content="2019-03-28T08:31:22.467Z">
+<meta property="og:updated_time" content="2019-04-01T06:37:17.123Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搭配Grafana的資料收集器Telegraf">
 <meta name="twitter:description" content="介紹 telegraf 是用Go寫的代理程式，可以用在收集系統和服務的統計資料，它擁有輸入套件，可以直接從系統抓取指標數據，從第三方API獲得指標數據，甚至可以通過statsd和Kafka得到資料。它還具備输出套件，可以將採集的數據發送到各種資料庫儲存。比如InfluxDB，Graphite，OpenTSDB，Datadog，Librato，Kafka，MQTT，NSQ等等。支援 Linux  與">
@@ -123,12 +123,13 @@
 <img src="/2019/03/28/搭配Grafana的資料收集器Telegraf/03.png">
 <p>-<br><img src="/2019/03/28/搭配Grafana的資料收集器Telegraf/04.png"></p>
 <p>-<br><img src="/2019/03/28/搭配Grafana的資料收集器Telegraf/05.png"></p>
-<p>後續要加上其餘的記憶體與硬碟與網路封包等都可以再剛剛顯示cpu的選項調整<br>cpu的位置是Input的類別(e.q 硬碟、記憶體、網路、程序、系統、io量等)<br>where是選擇host或者是更細部的子類別選項等<br>select是該類別下的所有被收集來的資訊(e.q 硬碟大小、容量、使用量、空閒等)<br>Group By 的time是時間區間與，fill是直的表現方式</p>
+<p>後續要加上其餘的記憶體與硬碟與網路封包等都可以再剛剛顯示cpu的選項調整<br>cpu的位置是Input的類別(e.q 硬碟、記憶體、網路、程序、系統、io量等)<br>where是選擇host或者是更細部的子類別選項等<br>select是該類別下的所有被收集來的資訊(e.q 硬碟大小、容量、使用量、空閒等)<br>Group By 的time是時間區間與，fill是值的表現方式</p>
+<p>之後會再寫一篇介紹telegraf怎麼加入ping與snmp的功能<br>主要也是針對configuration的部分新增ping與snmp的input的段落</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/28/搭配Grafana的資料收集器Telegraf/" data-id="cjts94i3j00026ck052atnaio" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/28/搭配Grafana的資料收集器Telegraf/" data-id="cjtxzemyh00019kk04u049j71" class="article-share-link">Share</a>
       
       
     </footer>
@@ -136,6 +137,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Grafana搭配Slack告警與GCS圖片發送
+        
+      </div>
+    </a>
   
   
     <a href="/2019/03/27/docker-compose建立Grafana與Influxdb/" id="article-nav-older" class="article-nav-link-wrap">
@@ -175,6 +185,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/">Grafana搭配Slack告警與GCS圖片發送</a>
+          </li>
         
           <li>
             <a href="/2019/03/28/搭配Grafana的資料收集器Telegraf/">搭配Grafana的資料收集器Telegraf</a>
