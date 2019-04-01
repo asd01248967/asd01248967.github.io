@@ -88,18 +88,59 @@
 <p>我們需要讓有一個機制可以在監控突然出現異常的時候可以發出通知告知管理人員</p>
 <p>並且發送相對應的告警的截圖告知是哪一個監控告警，目前的值維多少，圖形是如何的趨勢</p>
 <h1 id="Configuration-alert"><a href="#Configuration-alert" class="headerlink" title="Configuration alert"></a>Configuration alert</h1><p>step.1 首先先註冊一個slack的帳號與下載slack的應用程序或app</p>
-<p>step.2 創建一個channel的頻道(也可以說是workspace的地方)，並將需要的管理人員都加入進去</p>
+<p>step.2 slack創建一個channel的頻道(也可以說是workspace的地方)，並將需要的管理人員都加入進去</p>
 <p>stpe.3 前往slack的app Directory應用程序，登入後選擇所要發送告警通知的channel，去申請Incoming WebHooks的URL</p>
 <p>網址：<a href="https://slack.com/apps" target="_blank" rel="noopener">https://slack.com/apps</a></p>
 <p>step.4 回來Grafana的Alerting → notifications channels → New Channel</p>
 <img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/01.png">
-<p>填上名稱、類型、web hook url之後把send on all alerts與include image給勾選起來後點選save &amp; test</p>
+<p>填上名稱、類型、web hook url之後把send on all alerts與include image給勾選起來後點選save &amp; test<br>會發送一個測試個告警訊息且包含圖片</p>
 <img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/02.png">
+<p>step.5 在來回到Grafana之前所建立的cpu等監控的面板，點選alert後設定condition與no data 與 error handing與Notifications</p>
+<img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/03.png">
+<p>Rule：此條規則的名稱、多久評估一次值、等待多久從pending 轉為alert的狀態</p>
+<p>Conditions：圖例來說，設置值的平均值，query A的值從現在往前5分鐘、超過100 =&gt;符合告警的設定</p>
+<p>no data &amp; error handing：設定沒資料與處理錯誤的狀態下該如何判定與處理</p>
+<p>Notifications：選擇剛剛在Alerting所設定的Channel(會發送到剛剛建立的slacke channel)後存檔</p>
+<h1 id="GCS上傳圖片與發送"><a href="#GCS上傳圖片與發送" class="headerlink" title="GCS上傳圖片與發送"></a>GCS上傳圖片與發送</h1><p>在使用docker-compose建立grafana與influxdb的時候就已經完成的初階的GCP的DNS與OAuth Client 驗證的設定</p>
+<p>所以只要有按照該篇文章建立與設定的話目前應該是可以透過網域與google帳號驗證登入進grafana了</p>
+<p>那我們在GCP上還差幾個步驟就可以讓grafana上有圖片暫存與收發的功能了</p>
+<p>step.1 建立服務帳戶並給予權限<br>此步驟主要是建立一個服務帳號，並給予帳號特定storage的權限，然後讓此帳號升成一個金鑰檔案給予grafana使用，這樣一來grafana就可以拿取此金鑰檔案上擁有的權限認證對特定storage進行存取了</p>
+<p>先到IAM與管理員後點選+建立服務帳戶<br><img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/04.png"></p>
+<p>填寫服務帳號名稱：這邊可以設定為單一服務或功能型的名稱：grafana or storages for grafana等等…<br>服務帳戶說明：看個人願不願意輸入此服務帳戶的詳細資訊，避免日後太久回來忘記還是建議輸入一下<br><img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/05.png"></p>
+<p>設定服務帳戶權限(可選項)：請選擇儲存空間的storages的物件建立者or物件管理員(至少確保有寫入權限)<br>點選繼續之後</p>
+<img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/06.png">
+<p>再完成後記得點選下載json格式的金鑰，此金鑰為你所創立的服務帳號所授予寫入storage權限的証明<br>有了此金鑰檔案就可以有權限任意的往你的storage新增刪除物件了<br>所以金鑰要很小心的管理不可外流!!!</p>
+<img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/07.png">
+<p>step.2 建立可以暫存圖片的storage bucket</p>
+<p>既然已經完成了建立帳號與權限設定並拿到帳號的金鑰了</p>
+<p>那接下來準備建置一個讓grafana可以存取圖片的storage bucket了</p>
+<p>點選GCP Menu的Storage 瀏覽器後，按下建立值區(就是bucket的意思)</p>
+<img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/09.png">
+<p>名稱：因為GCP的bucket的特殊性，全世界的bucket不可以有相同的名稱，因此請自己取一個符合服務或功能性的名稱<br>如果出現重複名稱GCP會有紅色通知你需要更換名稱<br>預設儲存空間級別：依照個人需求，假設你上傳與下載圖片頻率越高，則使用Multi-Regional；反之則選擇約低層級就好<br>詳細的費用計算方法請參考這裡[<a href="https://cloud.google.com/storage/pricing]" target="_blank" rel="noopener">https://cloud.google.com/storage/pricing]</a></p>
+<img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/08.png">
+<p><br></p>
+<font color="blue">請注意將你剛剛下載下載的json金鑰檔案放置在/data/grafana底下。<br>因為容器內的路徑對應到外部的/data/grafana資料夾，因此丟到此路徑就可以讓容器讀取金鑰</font>
+
+<p>step.3 新增gcs的configuration至docker-compose上</p>
+<p>目前的docker-compose.yml尚未有gcs的上傳圖片功能</p>
+<p>所以我們在這邊要新增這些環境變數上去設定來新鄒此功能</p>
+<pre><code>environment:
+  - GF_EXTERNAL_IMAGE_STORAGE_PROVIDER=gcs
+  - GF_EXTERNAL_IMAGE_STORAGE_GCS_KEY_FILE=/var/lib/grafana/at-test-167906-dc5790273dac.json
+  - GF_EXTERNAL_IMAGE_STORAGE_GCS_BUCKET=kasper-test
+</code></pre><p>第一個環境變數是指你要選擇使用gcs當作圖片的存放空間(記得要小寫，大寫會出錯)<br>第二個環境變數是指你的服務帳號的金鑰放置位置<br>第二個環境變數是指你的bucket的名稱</p>
+<p>備註1：金鑰的部分，因為我們將grafana持久化，將容器世界的/var/lib/grafana對應到外部主機的/data/grafana，因此我建議就將禁要放置在此。然後把金鑰的位置設定成容器內部的/var/lib/grafana<br>即可以抓到金鑰檔案了</p>
+<p>備註2：Bucket的名稱只要打單純的bucket名稱即可，不需要在前面增加任何網路的路徑等等</p>
+<p>後續在建立grafana與influxdb的時候需要查看log是否有正確的讀取到設定檔與抓取該金鑰檔案</p>
+<p>可以使用已下指令來查看</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker logs grafana</span><br></pre></td></tr></table></figure>
+<p>正確的話會出現以下log<br>如果沒有出現的話就帶柄環境變數設定錯誤or讀取金鑰失敗<br><img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/10.png"></p>
+<img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/11.png">
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/" data-id="cjtxzemyc00009kk0tjbb3l42" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/" data-id="cjty3iras0000ewk0lgurk1uk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -168,7 +209,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/28/搭配Grafana的資料收集器Telegraf/" data-id="cjtxzemyh00019kk04u049j71" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/28/搭配Grafana的資料收集器Telegraf/" data-id="cjty3irb30002ewk0tibxs48a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -324,7 +365,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjtxzemzh00029kk0rlfo8zrd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjty3iraz0001ewk0pa5ue5dd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -439,7 +480,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjtxzemzj00039kk0bhloj11q" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjty3irb60003ewk0la4bspoc" class="article-share-link">Share</a>
       
       
     </footer>
