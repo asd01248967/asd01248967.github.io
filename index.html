@@ -62,6 +62,47 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-加入ping與snmp監控到telegraf" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/01/加入ping與snmp監控到telegraf/" class="article-date">
+  <time datetime="2019-04-01T09:26:53.000Z" itemprop="datePublished">2019-04-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/01/加入ping與snmp監控到telegraf/">加入ping與snmp監控到telegraf</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在前幾篇介紹telegraf的文章片段中只有簡單介紹如何最簡單快入的安裝 &amp; 設定 &amp; 啟動 &amp; 確認服務是否成功執行</p>
+<p>但是並沒有針對telegraf設定去做較清楚的講解</p>
+<p>本篇文章為使用telegraf的ping與snmp設定範例之一</p>
+<p>從預設的系統監控項目額外新增上述兩項的input的監控項目</p>
+<p>那麼第一部分主要是先講解telegraf上新增ping的功能</p>
+<h1 id="1-default"><a href="#1-default" class="headerlink" title="1. default"></a>1. default</h1>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/04/01/加入ping與snmp監控到telegraf/" data-id="cjudnszty0002vck07eg6ka3i" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Grafana搭配Slack告警與GCS圖片發送" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/" class="article-date">
@@ -84,23 +125,32 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>呈上個主題，建立好dashboard與panel的分析圖表後(cpu、disk、ram、network等)</p>
-<p>我們需要讓有一個機制可以在監控突然出現異常的時候可以發出通知告知管理人員</p>
-<p>並且發送相對應的告警的截圖告知是哪一個監控告警，目前的值維多少，圖形是如何的趨勢</p>
+        <p>呈上個主題，建立好dashboard與panel的監控圖表(可以顯示出cpu、disk、ram、network等資訊)</p>
+<p>我們需要有一個機制可以在監控圖表突然出現異常(數值不正確)的時候可以發出警通知系統管理人員</p>
+<p>並且發送告警監控的截圖來告知系統管理員是哪一個服務或資源發生異常從而告警，目前的值是多少，圖形是如何的趨勢</p>
 <h1 id="Configuration-alert"><a href="#Configuration-alert" class="headerlink" title="Configuration alert"></a>Configuration alert</h1><p>step.1 首先先註冊一個slack的帳號與下載slack的應用程序或app</p>
+<img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/12.png">
 <p>step.2 slack創建一個channel的頻道(也可以說是workspace的地方)，並將需要的管理人員都加入進去</p>
-<p>stpe.3 前往slack的app Directory應用程序，登入後選擇所要發送告警通知的channel，去申請Incoming WebHooks的URL</p>
+<img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/13.png">
+<p>stpe.3 前往slack的app Directory應用程序，登入後選擇所要發送告警通知的channel，搜尋並申請Incoming WebHooks的URL</p>
 <p>網址：<a href="https://slack.com/apps" target="_blank" rel="noopener">https://slack.com/apps</a></p>
+<img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/14.png">
 <p>step.4 回來Grafana的Alerting → notifications channels → New Channel</p>
 <img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/01.png">
-<p>填上名稱、類型、web hook url之後把send on all alerts與include image給勾選起來後點選save &amp; test<br>會發送一個測試個告警訊息且包含圖片</p>
+<p>填上名稱、類型、incoming webhook url之後把send on all alerts與include image給勾選起來後點選save &amp; test<br>會發送一個測試個告警訊息且包含圖片</p>
 <img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/02.png">
-<p>step.5 在來回到Grafana之前所建立的cpu等監控的面板，點選alert後設定condition與no data 與 error handing與Notifications</p>
+<p>有收到上圖的告警 &amp; 圖片訊息才能確認告警發送通知是成功的。才可以繼續往下做step.5 告警值的調整</p>
+<p>step.5 回到Grafana之前所建立dashboard的cpu、ram、disk等資訊監控的panel，選擇alert頁籤後點選Create Alert。</p>
+<p>設定Alert config、condition與no data 與 error handing與Notifications</p>
 <img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/03.png">
 <p>Rule：此條規則的名稱、多久評估一次值、等待多久從pending 轉為alert的狀態</p>
 <p>Conditions：圖例來說，設置值的平均值，query A的值從現在往前5分鐘、超過100 =&gt;符合告警的設定</p>
 <p>no data &amp; error handing：設定沒資料與處理錯誤的狀態下該如何判定與處理</p>
 <p>Notifications：選擇剛剛在Alerting所設定的Channel(會發送到剛剛建立的slacke channel)後存檔</p>
+<p>panel名稱上應該會有一個綠色的愛心符號，即代表你有設定Alter的並且現在是正確的值</p>
+<p>如果有跳出異常的值時，此panel會外框變成紅色且愛心會變成紅色碎裂的心</p>
+<p>step.6 再來就是測試是否真的可以如設定上發送cpu、ram、disk等監控資訊的告警</p>
+<p>假設目前的cpu的正常值為10%，我們把Alter的config調整成會告警的</p>
 <h1 id="GCS上傳圖片與發送"><a href="#GCS上傳圖片與發送" class="headerlink" title="GCS上傳圖片與發送"></a>GCS上傳圖片與發送</h1><p>在使用docker-compose建立grafana與influxdb的時候就已經完成的初階的GCP的DNS與OAuth Client 驗證的設定</p>
 <p>所以只要有按照該篇文章建立與設定的話目前應該是可以透過網域與google帳號驗證登入進grafana了</p>
 <p>那我們在GCP上還差幾個步驟就可以讓grafana上有圖片暫存與收發的功能了</p>
@@ -140,7 +190,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/" data-id="cjty3iras0000ewk0lgurk1uk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/" data-id="cjudnsztn0000vck0vhrhymgf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -209,7 +259,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/28/搭配Grafana的資料收集器Telegraf/" data-id="cjty3irb30002ewk0tibxs48a" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/28/搭配Grafana的資料收集器Telegraf/" data-id="cjudnszw00004vck0lr5bzqks" class="article-share-link">Share</a>
       
       
     </footer>
@@ -365,7 +415,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjty3iraz0001ewk0pa5ue5dd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/27/docker-compose建立Grafana與Influxdb/" data-id="cjudnsztv0001vck0q6zo10zr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -480,7 +530,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjty3irb60003ewk0la4bspoc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" data-id="cjudnszu00003vck063qyrmur" class="article-share-link">Share</a>
       
       
     </footer>
@@ -508,7 +558,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
     </div>
   </div>
 
@@ -519,6 +569,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/04/01/加入ping與snmp監控到telegraf/">加入ping與snmp監控到telegraf</a>
+          </li>
         
           <li>
             <a href="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/">Grafana搭配Slack告警與GCS圖片發送</a>

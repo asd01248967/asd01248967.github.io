@@ -5,15 +5,19 @@
   
 
   
-  <title>Archives: 2019/3 | Hexo</title>
+  <title>加入ping與snmp監控到telegraf | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2019/03/index.html">
+  <meta name="description" content="在前幾篇介紹telegraf的文章片段中只有簡單介紹如何最簡單快入的安裝 &amp;amp; 設定 &amp;amp; 啟動 &amp;amp; 確認服務是否成功執行 但是並沒有針對telegraf設定去做較清楚的講解 本篇文章為使用telegraf的ping與snmp設定範例之一 從預設的系統監控項目額外新增上述兩項的input的監控項目 那麼第一部分主要是先講解telegraf上新增ping的功能 1. defaul">
+<meta property="og:type" content="article">
+<meta property="og:title" content="加入ping與snmp監控到telegraf">
+<meta property="og:url" content="http://yoursite.com/2019/04/01/加入ping與snmp監控到telegraf/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在前幾篇介紹telegraf的文章片段中只有簡單介紹如何最簡單快入的安裝 &amp;amp; 設定 &amp;amp; 啟動 &amp;amp; 確認服務是否成功執行 但是並沒有針對telegraf設定去做較清楚的講解 本篇文章為使用telegraf的ping與snmp設定範例之一 從預設的系統監控項目額外新增上述兩項的input的監控項目 那麼第一部分主要是先講解telegraf上新增ping的功能 1. defaul">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-11T05:57:43.365Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="加入ping與snmp監控到telegraf">
+<meta name="twitter:description" content="在前幾篇介紹telegraf的文章片段中只有簡單介紹如何最簡單快入的安裝 &amp;amp; 設定 &amp;amp; 啟動 &amp;amp; 確認服務是否成功執行 但是並沒有針對telegraf設定去做較清楚的講解 本篇文章為使用telegraf的ping與snmp設定範例之一 從預設的系統監控項目額外新增上述兩項的input的監控項目 那麼第一部分主要是先講解telegraf上新增ping的功能 1. defaul">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -60,97 +64,56 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/" class="archive-article-date">
-  <time datetime="2019-03-28T08:35:32.000Z" itemprop="datePublished">Mar 28</time>
+        <section id="main"><article id="post-加入ping與snmp監控到telegraf" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/01/加入ping與snmp監控到telegraf/" class="article-date">
+  <time datetime="2019-04-01T09:26:53.000Z" itemprop="datePublished">2019-04-01</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/">Grafana搭配Slack告警與GCS圖片發送</a>
+    <h1 class="article-title" itemprop="name">
+      加入ping與snmp監控到telegraf
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019/03/28/搭配Grafana的資料收集器Telegraf/" class="archive-article-date">
-  <time datetime="2019-03-28T06:15:35.000Z" itemprop="datePublished">Mar 28</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/28/搭配Grafana的資料收集器Telegraf/">搭配Grafana的資料收集器Telegraf</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019/03/27/docker-compose建立Grafana與Influxdb/" class="archive-article-date">
-  <time datetime="2019-03-27T06:12:02.000Z" itemprop="datePublished">Mar 27</time>
-</a>
+        <p>在前幾篇介紹telegraf的文章片段中只有簡單介紹如何最簡單快入的安裝 &amp; 設定 &amp; 啟動 &amp; 確認服務是否成功執行</p>
+<p>但是並沒有針對telegraf設定去做較清楚的講解</p>
+<p>本篇文章為使用telegraf的ping與snmp設定範例之一</p>
+<p>從預設的系統監控項目額外新增上述兩項的input的監控項目</p>
+<p>那麼第一部分主要是先講解telegraf上新增ping的功能</p>
+<h1 id="1-default"><a href="#1-default" class="headerlink" title="1. default"></a>1. default</h1>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/27/docker-compose建立Grafana與Influxdb/">docker-compose建立Grafana與Influxdb</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/" class="archive-article-date">
-  <time datetime="2019-03-25T16:14:36.000Z" itemprop="datePublished">Mar 26</time>
-</a>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/04/01/加入ping與snmp監控到telegraf/" data-id="cjudnszty0002vck07eg6ka3i" class="article-share-link">Share</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/03/26/利用docker-compose建立Grafana與上傳圖片功能/">利用docker-compose建立Grafana與上傳圖片功能</a>
-    </h1>
-  
-
-    </header>
+      
+    </footer>
   </div>
-</article>
+  
+    
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Grafana搭配Slack告警與GCS圖片發送</div>
+    </a>
   
+</nav>
 
+  
+</article>
 
 </section>
         
