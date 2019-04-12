@@ -20,6 +20,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/01.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/02.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/03.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/15.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/04.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/05.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/06.png">
@@ -28,7 +29,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/08.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/10.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/11.png">
-<meta property="og:updated_time" content="2019-04-12T05:56:49.479Z">
+<meta property="og:updated_time" content="2019-04-12T07:48:31.347Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Grafana搭配Slack告警與GCS圖片發送">
 <meta name="twitter:description" content="呈上個主題，建立好dashboard與panel的監控圖表(可以顯示出cpu、disk、ram、network等資訊) 我們需要有一個機制可以在監控圖表突然出現異常(數值不正確)的時候可以發出警通知系統管理人員 並且發送告警監控的截圖來告知系統管理員是哪一個服務或資源發生異常從而告警，目前的值是多少，圖形是如何的趨勢 Configuration alertstep.1 首先先註冊一個slack的帳">
@@ -126,35 +127,37 @@
 <p>panel名稱上應該會有一個綠色的愛心符號，即代表你有設定Alter的並且現在是正確的值</p>
 <p>如果有跳出異常的值時，此panel會外框變成紅色且愛心會變成紅色碎裂的心</p>
 <p>step.6 再來就是測試是否真的可以如設定上發送cpu、ram、disk等監控資訊的告警</p>
-<p>假設目前的cpu的正常值為10%，我們把Alter的config調整成會告警的</p>
-<h1 id="GCS上傳圖片與發送"><a href="#GCS上傳圖片與發送" class="headerlink" title="GCS上傳圖片與發送"></a>GCS上傳圖片與發送</h1><p>在使用docker-compose建立grafana與influxdb的時候就已經完成的初階的GCP的DNS與OAuth Client 驗證的設定</p>
+<p>假設目前的cpu的正常值為10%，我們把Alter的config調整成會觸發告警的值，來測試是否正確</p>
+<p>如果成功應該會下圖一樣是有出現監控的目前資訊與告警的截圖才對</p>
+<img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/15.png">
+<h1 id="GCS上傳圖片與發送"><a href="#GCS上傳圖片與發送" class="headerlink" title="GCS上傳圖片與發送"></a>GCS上傳圖片與發送</h1><p>在使用docker-compose建立grafana與influxdb的時候就已經完成的初階的GCP的DNS與Google OAuth Client 登入驗證的設定</p>
 <p>所以只要有按照該篇文章建立與設定的話目前應該是可以透過網域與google帳號驗證登入進grafana了</p>
-<p>那我們在GCP上還差幾個步驟就可以讓grafana上有圖片暫存與收發的功能了</p>
-<p>step.1 建立服務帳戶並給予權限<br>此步驟主要是建立一個服務帳號，並給予帳號特定storage的權限，然後讓此帳號升成一個金鑰檔案給予grafana使用，這樣一來grafana就可以拿取此金鑰檔案上擁有的權限認證對特定storage進行存取了</p>
+<p>那我們在GCP上還差幾個步驟就可以讓grafana上新增有上傳GCS圖片與發送圖片告警的功能了</p>
+<p>step.1 建立服務帳戶並給予權限<br>此步驟主要是建立一個服務帳號，並給予該帳號可以存取storage的權限，然後讓該帳號升成一個對應的金鑰檔案(KeyFile.json)，此金鑰檔案就相當於該帳號的的權限。將金鑰檔案放置grafana上並在設定擋上指定位置，這樣一來grafana就可以拿取此金鑰檔案上擁有的權限認證對storage進行存取了</p>
 <p>先到IAM與管理員後點選+建立服務帳戶<br><img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/04.png"></p>
 <p>填寫服務帳號名稱：這邊可以設定為單一服務或功能型的名稱：grafana or storages for grafana等等…<br>服務帳戶說明：看個人願不願意輸入此服務帳戶的詳細資訊，避免日後太久回來忘記還是建議輸入一下<br><img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/05.png"></p>
-<p>設定服務帳戶權限(可選項)：請選擇儲存空間的storages的物件建立者or物件管理員(至少確保有寫入權限)<br>點選繼續之後</p>
+<p>設定服務帳戶權限(可選項)：請選擇儲存空間的storages的物件建立者or物件管理員(至少需要擁有可以寫入的權限才能夠存入圖片)</p>
 <img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/06.png">
-<p>再完成後記得點選下載json格式的金鑰，此金鑰為你所創立的服務帳號所授予寫入storage權限的証明<br>有了此金鑰檔案就可以有權限任意的往你的storage新增刪除物件了<br>所以金鑰要很小心的管理不可外流!!!</p>
+<p>再完成後記得點選下載json格式的金鑰，此金鑰為你所創立的服務帳號所授予寫入storage權限的金鑰檔案<br>有了此金鑰檔案就可以有權限往storage新增刪除物件了<br>所以金鑰要很小心的管理不可外流!!!</p>
 <img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/07.png">
 <p>step.2 建立可以暫存圖片的storage bucket</p>
-<p>既然已經完成了建立帳號與權限設定並拿到帳號的金鑰了</p>
+<p>既然已經完成了建立服務帳號與權限設定並拿到帳號的金鑰了</p>
 <p>那接下來準備建置一個讓grafana可以存取圖片的storage bucket了</p>
 <p>點選GCP Menu的Storage 瀏覽器後，按下建立值區(就是bucket的意思)</p>
 <img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/09.png">
-<p>名稱：因為GCP的bucket的特殊性，全世界的bucket不可以有相同的名稱，因此請自己取一個符合服務或功能性的名稱<br>如果出現重複名稱GCP會有紅色通知你需要更換名稱<br>預設儲存空間級別：依照個人需求，假設你上傳與下載圖片頻率越高，則使用Multi-Regional；反之則選擇約低層級就好<br>詳細的費用計算方法請參考這裡[<a href="https://cloud.google.com/storage/pricing]" target="_blank" rel="noopener">https://cloud.google.com/storage/pricing]</a></p>
+<p>名稱：因為GCP的bucket的規定，全世界的bucket不可以有相同的名稱，因此請自己取一個符合服務或功能性的名稱<br>如果出現重複名稱GCP會有紅色通知你需要更換名稱<br>預設儲存空間級別：依照個人需求，假設你上傳與下載圖片頻率越高，則使用Multi-Regional；反之則選擇約低層級就好<br>詳細的費用計算方法請參考這裡[<a href="https://cloud.google.com/storage/pricing]" target="_blank" rel="noopener">https://cloud.google.com/storage/pricing]</a></p>
 <img src="/2019/03/28/Grafana搭配Slack告警與GCS圖片發送/08.png">
 <p><br></p>
-<font color="blue">請注意將你剛剛下載下載的json金鑰檔案放置在/data/grafana底下。<br>因為容器內的路徑對應到外部的/data/grafana資料夾，因此丟到此路徑就可以讓容器讀取金鑰</font>
+<font color="blue">請注意將你剛剛下載下載的json金鑰檔案放置在Grafana機器的/data/grafana目錄底下。<br>因為容器內的路徑對應到外部的/data/grafana資料夾，因此丟到此路徑後重啟docker就可以讓容器讀取金鑰</font>
 
 <p>step.3 新增gcs的configuration至docker-compose上</p>
 <p>目前的docker-compose.yml尚未有gcs的上傳圖片功能</p>
-<p>所以我們在這邊要新增這些環境變數上去設定來新鄒此功能</p>
+<p>所以我們在這邊要新增這些環境變數上去設定來新增此功能</p>
 <pre><code>environment:
   - GF_EXTERNAL_IMAGE_STORAGE_PROVIDER=gcs
   - GF_EXTERNAL_IMAGE_STORAGE_GCS_KEY_FILE=/var/lib/grafana/at-test-167906-dc5790273dac.json
   - GF_EXTERNAL_IMAGE_STORAGE_GCS_BUCKET=kasper-test
-</code></pre><p>第一個環境變數是指你要選擇使用gcs當作圖片的存放空間(記得要小寫，大寫會出錯)<br>第二個環境變數是指你的服務帳號的金鑰放置位置<br>第二個環境變數是指你的bucket的名稱</p>
+</code></pre><p>第一個環境變數是指你要選擇使用gcs當作圖片的存放空間(記得要小寫，大寫會出錯)<br>第二個環境變數是指你的服務帳號的金鑰放置位置(注意容器與主機對應的資料夾)<br>第二個環境變數是指你的bucket的名稱</p>
 <p>備註1：金鑰的部分，因為我們將grafana持久化，將容器世界的/var/lib/grafana對應到外部主機的/data/grafana，因此我建議就將禁要放置在此。然後把金鑰的位置設定成容器內部的/var/lib/grafana<br>即可以抓到金鑰檔案了</p>
 <p>備註2：Bucket的名稱只要打單純的bucket名稱即可，不需要在前面增加任何網路的路徑等等</p>
 <p>後續在建立grafana與influxdb的時候需要查看log是否有正確的讀取到設定檔與抓取該金鑰檔案</p>
