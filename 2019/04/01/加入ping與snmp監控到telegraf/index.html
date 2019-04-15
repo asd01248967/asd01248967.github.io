@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="在前幾篇介紹telegraf的文章片段中只有簡單介紹如何最簡單快入的安裝 &amp;amp; 設定 &amp;amp; 啟動 &amp;amp; 確認服務是否成功執行 但是並沒有針對telegraf設定去做較清楚的講解 本篇文章為使用telegraf的ping與snmp設定範例之一 從預設的系統監控項目額外新增上述兩項的input的監控項目 預設上windows telegraf的本身設定即包含了cpu、disk、dis">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-15T07:11:01.597Z">
+<meta property="og:updated_time" content="2019-04-15T07:16:41.245Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="加入ping與snmp監控到telegraf">
 <meta name="twitter:description" content="在前幾篇介紹telegraf的文章片段中只有簡單介紹如何最簡單快入的安裝 &amp;amp; 設定 &amp;amp; 啟動 &amp;amp; 確認服務是否成功執行 但是並沒有針對telegraf設定去做較清楚的講解 本篇文章為使用telegraf的ping與snmp設定範例之一 從預設的系統監控項目額外新增上述兩項的input的監控項目 預設上windows telegraf的本身設定即包含了cpu、disk、dis">
@@ -108,8 +108,7 @@
 
 <font color="blue">在telegraf的inputs.snmp部分寫入的oid，必須是O.I.D樹結構的最末梢，如果非最末梢會導致讀到的是數據表而非單一值，造成無法寫入到influxdb內</font>
 
-
-
+<p>範例是FortiGate-100D</p>
 <blockquote>
 <h1 id="Retrieves-SNMP-values-from-remote-agents"><a href="#Retrieves-SNMP-values-from-remote-agents" class="headerlink" title="Retrieves SNMP values from remote agents"></a>Retrieves SNMP values from remote agents</h1><p>[[inputs.snmp]]<br>  agents = [ “103.115.173.66” ]</p>
 <h1 id="Timeout-for-each-SNMP-query"><a href="#Timeout-for-each-SNMP-query" class="headerlink" title="## Timeout for each SNMP query."></a>## Timeout for each SNMP query.</h1><p>  timeout = “5s”</p>
@@ -136,7 +135,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/04/01/加入ping與snmp監控到telegraf/" data-id="cjui06anw0003z8k0siih9b7g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/04/01/加入ping與snmp監控到telegraf/" data-id="cjui0z3bo00027kk0p5bn5pjq" class="article-share-link">Share</a>
       
       
     </footer>
