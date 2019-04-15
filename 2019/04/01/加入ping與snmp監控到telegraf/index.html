@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="在前幾篇介紹telegraf的文章片段中只有簡單介紹如何最簡單快入的安裝 &amp;amp; 設定 &amp;amp; 啟動 &amp;amp; 確認服務是否成功執行 但是並沒有針對telegraf設定去做較清楚的講解 本篇文章為使用telegraf的ping與snmp設定範例之一 從預設的系統監控項目額外新增上述兩項的input的監控項目 預設上windows telegraf的本身設定即包含了cpu、disk、dis">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-15T06:41:50.736Z">
+<meta property="og:updated_time" content="2019-04-15T07:11:01.597Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="加入ping與snmp監控到telegraf">
 <meta name="twitter:description" content="在前幾篇介紹telegraf的文章片段中只有簡單介紹如何最簡單快入的安裝 &amp;amp; 設定 &amp;amp; 啟動 &amp;amp; 確認服務是否成功執行 但是並沒有針對telegraf設定去做較清楚的講解 本篇文章為使用telegraf的ping與snmp設定範例之一 從預設的系統監控項目額外新增上述兩項的input的監控項目 預設上windows telegraf的本身設定即包含了cpu、disk、dis">
@@ -106,11 +106,32 @@
 <p>這些資料，可進一步由網管應用程式來讀取或是進行監控 。</p>
 <font color="blue">但是把SNMP上的OID用在Telegraf需要特別的注意</font>
 
-<font color="blue">在telegraf的inputs.snmp部分寫入的oid，必須是iod樹結構的最末梢，如果非最末梢會導致讀到的是數據表而非單一值，造成無法寫入到influxdb內</font>
+<font color="blue">在telegraf的inputs.snmp部分寫入的oid，必須是O.I.D樹結構的最末梢，如果非最末梢會導致讀到的是數據表而非單一值，造成無法寫入到influxdb內</font>
 
-<p>[[inputs.snmp]]<br>  agents = [ “127.0.0.1:161” ]<br>  version = 2<br>  community = “public”</p>
-<p>  name = “system”<br>  [[inputs.snmp.field]]<br>    name = “hostname”<br>    oid = “.1.0.0.1.1”<br>    is_tag = true<br>  [[inputs.snmp.field]]<br>    name = “uptime”<br>    oid = “.1.0.0.1.2”<br>  [[inputs.snmp.field]]<br>    name = “loadavg”<br>    oid = “.1.0.0.1.3”<br>    conversion = “float(2)”</p>
-<p>  [[inputs.snmp.table]]<br>    name = “remote_servers”<br>    inherit_tags = [ “hostname” ]<br>    [[inputs.snmp.table.field]]<br>      name = “server”<br>      oid = “.1.0.0.0.1.1”<br>      is_tag = true<br>    [[inputs.snmp.table.field]]<br>      name = “connections”<br>      oid = “.1.0.0.0.1.2”<br>    [[inputs.snmp.table.field]]<br>      name = “latency”<br>      oid = “.1.0.0.0.1.3”<br>      conversion = “float”</p>
+
+
+<blockquote>
+<h1 id="Retrieves-SNMP-values-from-remote-agents"><a href="#Retrieves-SNMP-values-from-remote-agents" class="headerlink" title="Retrieves SNMP values from remote agents"></a>Retrieves SNMP values from remote agents</h1><p>[[inputs.snmp]]<br>  agents = [ “103.115.173.66” ]</p>
+<h1 id="Timeout-for-each-SNMP-query"><a href="#Timeout-for-each-SNMP-query" class="headerlink" title="## Timeout for each SNMP query."></a>## Timeout for each SNMP query.</h1><p>  timeout = “5s”</p>
+<h1 id="Number-of-retries-to-attempt-within-timeout"><a href="#Number-of-retries-to-attempt-within-timeout" class="headerlink" title="## Number of retries to attempt within timeout."></a>## Number of retries to attempt within timeout.</h1><p>  retries = 3</p>
+<h1 id="SNMP-version-values-can-be-1-2-or-3"><a href="#SNMP-version-values-can-be-1-2-or-3" class="headerlink" title="## SNMP version, values can be 1, 2, or 3"></a>## SNMP version, values can be 1, 2, or 3</h1><p>  version = 2<br>#</p>
+<h1 id="SNMP-community-string"><a href="#SNMP-community-string" class="headerlink" title="## SNMP community string."></a>## SNMP community string.</h1><p>  community = “gosmio”<br>#</p>
+<h1 id="The-GETBULK-max-repetitions-parameter"><a href="#The-GETBULK-max-repetitions-parameter" class="headerlink" title="## The GETBULK max-repetitions parameter"></a>## The GETBULK max-repetitions parameter</h1><h1 id="max-repetitions-10"><a href="#max-repetitions-10" class="headerlink" title="max_repetitions = 10"></a>max_repetitions = 10</h1><p>#</p>
+<h1 id="SNMPv3-auth-parameters"><a href="#SNMPv3-auth-parameters" class="headerlink" title="## SNMPv3 auth parameters"></a>## SNMPv3 auth parameters</h1><h1 id="sec-name-“myuser”"><a href="#sec-name-“myuser”" class="headerlink" title="#sec_name = “myuser”"></a>#sec_name = “myuser”</h1><h1 id="auth-protocol-“md5”-Values-“MD5”-“SHA”-“”"><a href="#auth-protocol-“md5”-Values-“MD5”-“SHA”-“”" class="headerlink" title="#auth_protocol = “md5”      # Values: “MD5”, “SHA”, “”"></a>#auth_protocol = “md5”      # Values: “MD5”, “SHA”, “”</h1><h1 id="auth-password-“pass”"><a href="#auth-password-“pass”" class="headerlink" title="#auth_password = “pass”"></a>#auth_password = “pass”</h1><h1 id="sec-level-“authNoPriv”-Values-“noAuthNoPriv”-“authNoPriv”-“authPriv”"><a href="#sec-level-“authNoPriv”-Values-“noAuthNoPriv”-“authNoPriv”-“authPriv”" class="headerlink" title="#sec_level = “authNoPriv”   # Values: “noAuthNoPriv”, “authNoPriv”, “authPriv”"></a>#sec_level = “authNoPriv”   # Values: “noAuthNoPriv”, “authNoPriv”, “authPriv”</h1><h1 id="context-name-“”"><a href="#context-name-“”" class="headerlink" title="#context_name = “”"></a>#context_name = “”</h1><h1 id="priv-protocol-“”-Values-“DES”-“AES”-“”"><a href="#priv-protocol-“”-Values-“DES”-“AES”-“”" class="headerlink" title="#priv_protocol = “”         # Values: “DES”, “AES”, “”"></a>#priv_protocol = “”         # Values: “DES”, “AES”, “”</h1><h1 id="priv-password-“”"><a href="#priv-password-“”" class="headerlink" title="#priv_password = “”"></a>#priv_password = “”</h1><p>#</p>
+<h1 id="measurement-name"><a href="#measurement-name" class="headerlink" title="## measurement name"></a>## measurement name</h1><p>  name = “SKY-SNMP”</p>
+<p> [[inputs.snmp.field]]<br>    name = “hostname1”<br>    oid = “1.3.6.1.4.1.12356.101.13.2.1.1.11.1”</p>
+<p> [[inputs.snmp.field]]<br>    name = “hostname2”<br>    oid = “1.3.6.1.4.1.12356.101.13.2.1.1.11.2”</p>
+<p> [[inputs.snmp.field]]<br>    name = “CpuUsage1”<br>    oid = “1.3.6.1.4.1.12356.101.13.2.1.1.3.1”</p>
+<p> [[inputs.snmp.field]]<br>    name = “CpuUsage2”<br>   oid = “1.3.6.1.4.1.12356.101.13.2.1.1.3.2”</p>
+<p> [[inputs.snmp.field]]<br>   name = “MemUsage1”<br>    oid = “1.3.6.1.4.1.12356.101.13.2.1.1.4.1”</p>
+<p> [[inputs.snmp.field]]<br>    name = “MemUsage2”<br>    oid = “1.3.6.1.4.1.12356.101.13.2.1.1.4.2”</p>
+<p> [[inputs.snmp.field]]<br>    name = “ifInOctets.EZCom”<br>    oid = “1.3.6.1.2.1.2.2.1.10.19”</p>
+<p> [[inputs.snmp.field]]<br>    name = “ifOutOctets.EZCom”<br>    oid = “1.3.6.1.2.1.31.1.1.1.10.19”</p>
+<p> [[inputs.snmp.field]]<br>    name = “ifInOctets.MekongNet”<br>    oid = “1.3.6.1.2.1.2.2.1.10.21”</p>
+<p> [[inputs.snmp.field]]<br>    name = “ifOutOctets.MekongNet”<br>    oid = “1.3.6.1.2.1.31.1.1.1.10.21”</p>
+<p> [[inputs.snmp.field]]<br>    name = “ifInOctets.Cootel”<br>    oid = “1.3.6.1.2.1.2.2.1.10.22”</p>
+<p> [[inputs.snmp.field]]<br>    name = “ifOutOctets.Cootel”<br>    oid = “1.3.6.1.2.1.31.1.1.1.10.22”</p>
+</blockquote>
 
       
     </div>
